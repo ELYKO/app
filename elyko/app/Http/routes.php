@@ -17,4 +17,4 @@ $app->get('/', function () {
     return 'hello world';
 });
 
-$app->get('/{id}', 'EtudiantController@get');
+$app->get('/student/{id}', 'StudentController@get');

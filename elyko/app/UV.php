@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UV extends Model {
+class Uv extends Model {
 
 	protected $table = 'uvs';
 	public $timestamps = false;
@@ -16,6 +16,6 @@ class UV extends Model {
 
 	public function students()
 	{
-		return $this->belongsToMany('App\Student');
+		return $this->belongsToMany('App\Student')->withPivot('grade');
 	}
 }
