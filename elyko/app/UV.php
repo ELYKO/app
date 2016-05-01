@@ -8,7 +8,8 @@ class Uv extends Model {
 
 	protected $table = 'uvs';
 	public $timestamps = false;
-
+	protected $fillable = array('id', 'name', 'credits', 'semester');
+	
 	public function evaluations()
 	{
 		return $this->hasMany('App\Evaluation');

@@ -8,11 +8,12 @@ class CreateEvaluationsTable extends Migration {
 	public function up()
 	{
 		Schema::create('evaluations', function(Blueprint $table) {
-			$table->increments('id');
+			$table->integer('id')->unsigned();
 			$table->integer('uv_id')->unsigned();
 			$table->string('name');
 			$table->decimal('coefficient');
 			$table->boolean('locked');
+			$table->primary('id');
 		});
 	}
 

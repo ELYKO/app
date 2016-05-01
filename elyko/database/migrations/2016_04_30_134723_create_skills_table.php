@@ -3,22 +3,20 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateStudentsTable extends Migration {
+class CreateSkillsTable extends Migration {
 
 	public function up()
 	{
-		Schema::create('students', function(Blueprint $table) {
+		Schema::create('skills', function(Blueprint $table) {
 			$table->integer('id')->unsigned();
-			$table->string('last_name');
 			$table->string('name');
-			$table->string('email');
-			$table->string('login');
+			$table->string('semester');
 			$table->primary('id');
 		});
 	}
 
 	public function down()
 	{
-		Schema::drop('students');
+		Schema::drop('skills');
 	}
 }

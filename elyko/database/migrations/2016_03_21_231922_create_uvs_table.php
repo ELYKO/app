@@ -8,10 +8,11 @@ class CreateUvsTable extends Migration {
 	public function up()
 	{
 		Schema::create('uvs', function(Blueprint $table) {
-			$table->increments('id');
+			$table->integer('id')->unsigned();
 			$table->string('name');
 			$table->integer('credits');
 			$table->string('semester');
+			$table->primary('id');
 		});
 	}
 
