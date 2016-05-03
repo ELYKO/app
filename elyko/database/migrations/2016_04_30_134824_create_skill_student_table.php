@@ -10,7 +10,7 @@ class CreateSkillStudentTable extends Migration {
 		Schema::create('skill_student', function(Blueprint $table) {
 			$table->integer('skill_id')->unsigned();
 			$table->integer('student_id')->unsigned();
-			$table->string('value');
+			$table->string('value')->nullable();
 			$table->primary(['skill_id','student_id']);
 		});
 	}

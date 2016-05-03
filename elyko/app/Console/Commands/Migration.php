@@ -41,13 +41,18 @@ class Migration extends Command
     public function handle()
     {
         /* // Pour des test en local
-        $result = mysqli_query(mysqli_connect('localhost', 'root', '', 'oasis'), "SELECT intIdUtilisateur AS 'id', strNom AS 'last_name', strPrenom AS 'name', strEmail AS 'email', strLogin AS 'login' FROM eleves");
-        $students = array();
-        if (mysqli_num_rows($result) > 0) {$i = 0; while ($row = mysqli_fetch_assoc($result)) { $students[$i] = $row; $i++; } }
-        Student::truncate();
-        foreach($students as $student) {Student::create($student);}
+        $conn = mysqli_connect('localhost', 'root', '', 'oasis');
+        $result = mysqli_query($conn, "SELECT intIdUtilisateur AS 'id', strNom AS 'last_name', strPrenom AS 'name', strLogin AS 'login', strEmail AS 'email' FROM eleves");
+        $students = array(); if (mysqli_num_rows($result) > 0) {$i = 0; while ($row = mysqli_fetch_assoc($result)) { $students[$i] = $row; $i++; } }
+        foreach($students as $student) {Student::updateOrCreate(['id' => $student['id']],$student);}
+        $result = mysqli_query($conn, "SELECT intIdEvaluation AS 'evaluation_id', intIdEleve AS 'student_id', strvaleur AS 'note' FROM bdn_notes");
+        $notes = array(); if (mysqli_num_rows($result) > 0) {$i = 0; while ($row = mysqli_fetch_assoc($result)) { $notes[$i] = $row; $i++; } }
+        foreach($notes as $note) { Note::firstOrCreate(['evaluation_id' => $note['evaluation_id'], 'student_id' => $note['student_id']]);
+            Note::where(['evaluation_id' => $note['evaluation_id'], 'student_id' => $note['student_id']])->update(['note' => $note['note']]);}
         $this->info('Migration succeed'); */
 
+        // Pour mesurer le temps du script
+        $timestart = microtime(true);
 
         // Connexion a la vue de la base Oasis fourni (Server SQL)
         $conn = mssql_connect('bddoasis.emn.fr:1433','elyko','k53k0kyl3','Notes-eleves');
@@ -78,13 +83,15 @@ class Migration extends Command
 
         // Select des evaluations
         $request = "SELECT DISTINCT eval.intIdEvaluation AS 'id', eval.intIdProcess AS 'uv_id', eval.strTitre AS 'name', eval.decCoefficient AS 'coefficient', eval.boolBloque AS 'locked'
-        FROM evaluations eval
+        FROM bdn_notes note
+        -- Associes a des evals
+        INNER JOIN evaluations eval ON eval.intIdEvaluation = note.intIdEvaluation
         -- Associes a des modules
         INNER JOIN evaluations module ON eval.intIdBlocParent = module.intIdEvaluation
         -- Qui sont associes a des uvs : type FPC sans fils (permet de ne pas selectionner les competences)
         INNER JOIN process UV ON UV.intIdProcess = module.intIdProcess AND UV.strTypeReferentiel = 'FPC' AND UV.intNbFils > 0
         -- Ou des eleves sont inscrits
-        INNER JOIN inscription_process iUV ON iUV.intIdProcess = process.intIdProcess
+        INNER JOIN inscription_process iUV ON iUV.intIdProcess = UV.intIdProcess
         INNER JOIN eleves ON eleves.intIdUtilisateur = iUV.intIdUSer
         ORDER BY id";
         $result = mssql_query($request, $conn);
@@ -181,7 +188,7 @@ class Migration extends Command
         -- Competence (skill) : process de type FPC sans fils
         INNER JOIN process skill ON skill.intIdProcess = note.intIdProcess AND skill.strTypeReferentiel = 'FPC' AND skill.intNbFils = 0
         -- Semestre : process de type ENS, de niveau 2
-        INNER JOIN process sem ON sem.strTypeReferentiel = 'ENS' AND sem.intNiveau = 2
+        INNER JOIN process sem ON sem.strTypeReferentiel = 'ENS' AND sem.intNiveau = 2 AND UV.intNbFils > 0
         -- On ne garde que les notes de competences
         WHERE note.strvaleur IN ('-', '=', '+')
         -- Le semestre est celui du skill
@@ -252,6 +259,9 @@ class Migration extends Command
 
         // Differents affichage pour des verifications
 
+        // Affiche de le temps de l'extraction
+        echo "L'extraction s'execute en " . microtime(true)-$timestart . " sec";
+
         // On affiche le nombre de resultats pour chaque requete
         echo "students : " . count($students) . "</br>";
         echo "evaluations : " . count($evaluations) . "</br>";
@@ -299,48 +309,46 @@ class Migration extends Command
             }
         }
 
-        // On clean la base elyko
-        Student::truncate();
-        Evaluation::truncate();
-        Note::truncate();
-        Uv::truncate();
-        Inscription::truncate();
-        SkillAssessed::truncate();
-
 
         // Insert des students
         foreach($students as $student) {
-            Student::create($student);
+            Student::updateOrCreate(['id' => $student['id']],$student);
         }
 
 
         // Insert des evaluations
         foreach($evaluations as $evaluation) {
-            Evaluation::create($evaluation);
+            Evaluation::updateOrCreate(['id' => $evaluation['id']],$evaluation);
         }
 
 
-        // Insert des notes
+        // Insert des notes (updateOrCreate don't work on composite key)
         foreach($notes as $note) {
-            Note::create($note);
+            Note::firstOrCreate(['evaluation_id' => $note['evaluation_id'], 'student_id' => $note['student_id']]);
+            Note::where(['evaluation_id' => $note['evaluation_id'], 'student_id' => $note['student_id']])
+                -> update(['note' => $note['note']]);
         }
 
 
         // Insert des uvs
         foreach($uvs as $uv) {
-            Uv::create($uv);
+            Uv::updateOrCreate(['id' => $uv['id']],$uv);
         }
 
 
         // Insert des inscriptions
         foreach($inscriptions as $inscription) {
-            Inscription::create($inscription);
+            Inscription::firstOrCreate(['uv_id' => $inscription['uv_id'], 'student_id' => $inscription['student_id']]);
+            Inscription::where(['uv_id' => $inscription['uv_id'], 'student_id' => $inscription['student_id']])
+                -> update(['grade' => $inscription['grade']]);
         }
 
 
         // Insert des skills assessed
         foreach($skillsAssessed as $skillAssessed) {
-            SkillAssessed::create($skillAssessed);
+            SkillAssessed::firstOrCreate(['skill_id' => $skillAssessed['skill_id'], 'student_id' => $skillAssessed['student_id']]);
+            SkillAssessed::where(['skill_id' => $skillAssessed['skill_id'], 'student_id' => $skillAssessed['student_id']])
+                -> update(['value' => $skillAssessed['value']]);
         }
 
 

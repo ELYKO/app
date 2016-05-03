@@ -10,7 +10,7 @@ class CreateEvaluationStudentTable extends Migration {
 		Schema::create('evaluation_student', function(Blueprint $table) {
 			$table->integer('evaluation_id')->unsigned();
 			$table->integer('student_id')->unsigned();
-			$table->string('note');
+			$table->string('note')->nullable();
 			$table->primary(['evaluation_id','student_id']);
 		});
 	}

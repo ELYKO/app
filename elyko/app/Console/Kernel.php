@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\Migration'
+        'App\Console\Commands\Migration',
+        'App\Console\Commands\Clean'
     ];
 
     /**
@@ -24,6 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('migration')->cron('* * * * *');
+        // Every 6 hours
+        $schedule->command('migration')->cron('0 */6 * * *');
+        // Every year
+        $schedule->command('clean')->cron('0 0 1 9 *');
     }
 }
