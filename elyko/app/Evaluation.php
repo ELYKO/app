@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Evaluation extends Model {
 
 	public $timestamps = false;
+    protected $fillable = array('id', 'uv_id', 'name', 'coefficient', 'locked');
 	protected $hidden = ['pivot'];
 
 	public function uv()

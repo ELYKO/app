@@ -3,14 +3,13 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateUvsTable extends Migration {
+class CreateSkillsTable extends Migration {
 
 	public function up()
 	{
-		Schema::create('uvs', function(Blueprint $table) {
+		Schema::create('skills', function(Blueprint $table) {
 			$table->integer('id')->unsigned();
 			$table->string('name')->nullable();
-			$table->integer('credits')->nullable();
 			$table->string('semester')->nullable();
 			$table->primary('id');
 		});
@@ -18,6 +17,6 @@ class CreateUvsTable extends Migration {
 
 	public function down()
 	{
-		Schema::drop('uvs');
+		Schema::drop('skills');
 	}
 }
