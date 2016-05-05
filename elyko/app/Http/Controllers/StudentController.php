@@ -8,19 +8,19 @@ class StudentController extends Controller
 {
 
 
-    public function get($id)
+    public function get($studentLogin)
     {
         $student_notes = Student::with([
-            'uvs.evaluations' => function ($query) use ($id) {
+            'uvs.evaluations' => function ($query) use ($studentLogin) {
                 $query->where('locked', false);
-                $query->whereHas('students', function ($query) use ($id) {
-                    $query->where('login', $id);
+                $query->whereHas('students', function ($query) use ($studentLogin) {
+                    $query->where('login', $studentLogin);
                 });
 
             },
-            'uvs.evaluations.students' => function ($query) use ($id) {
-                $query->select('note')->where('login', $id);
-            }])->where('login', $id)->get();
+            'uvs.evaluations.students' => function ($query) use ($studentLogin) {
+                $query->select('note')->where('login', $studentLogin);
+            }])->where('login', $studentLogin)->get();
 
         return response()->json($student_notes);
     }
