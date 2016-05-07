@@ -44,21 +44,21 @@ class EvaluationTableSeeder extends Seeder
 
         Evaluation::create([
             'uv_id' => 3,
-            'name' => 'Th�ori des orgas',
+            'name' => 'Théori des orgas',
             'coefficient' => 0.4,
             'locked' => false
         ]);
 
         Evaluation::create([
             'uv_id' => 3,
-            'name' => 'Histoire des ing�s',
+            'name' => 'Histoire des ingés',
             'coefficient' => 0.4,
             'locked' => false
         ]);
 
         Evaluation::create([
             'uv_id' => 3,
-            'name' => 'Expos� SSG',
+            'name' => 'Exposé SSG',
             'coefficient' => 0.2,
             'locked' => false
         ]);

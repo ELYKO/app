@@ -27,7 +27,7 @@ class UVTableSeeder extends Seeder
             'credits' => 4,
             'semester' => 'A1S2']);
 
-        Uv::create(['name' => 'Stage Op�rateur',
+        Uv::create(['name' => 'Stage Opérateur',
             'credits' => 2,
             'semester' => 'A1S2']);
 

@@ -10,9 +10,9 @@ class CreateEvaluationsTable extends Migration {
 		Schema::create('evaluations', function(Blueprint $table) {
 			$table->integer('id')->unsigned();
 			$table->integer('uv_id')->unsigned();
-			$table->string('name')->nullable();
-			$table->decimal('coefficient')->nullable();
-			$table->boolean('locked')->nullable();
+			$table->string('name');
+			$table->decimal('coefficient');
+			$table->boolean('locked');
 			$table->primary('id');
 		});
 	}

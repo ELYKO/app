@@ -9,9 +9,9 @@ class CreateUvsTable extends Migration {
 	{
 		Schema::create('uvs', function(Blueprint $table) {
 			$table->integer('id')->unsigned();
-			$table->string('name')->nullable();
-			$table->integer('credits')->nullable();
-			$table->string('semester')->nullable();
+			$table->string('name');
+			$table->integer('credits');
+			$table->string('semester');
 			$table->primary('id');
 		});
 	}
