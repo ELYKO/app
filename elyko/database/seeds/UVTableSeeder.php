@@ -7,43 +7,43 @@ class UVTableSeeder extends Seeder
     public function run()
     {
 
-        Uv::create(['name' => 'Maths',
+        Uv::create(['id' => 1,'name' => 'Maths',
             'credits' => 5,
             'semester' => 'A1S2']);
 
-        Uv::create(['name' => 'Physique',
+        Uv::create(['id' => 2,'name' => 'Physique',
             'credits' => 3,
             'semester' => 'A1S2']);
 
-        Uv::create(['name' => 'SSG',
+        Uv::create(['id' => 3,'name' => 'SSG',
             'credits' => 2,
             'semester' => 'A1S2']);
 
-        Uv::create(['name' => 'Langues Vivantes',
+        Uv::create(['id' => 4,'name' => 'Langues Vivantes',
             'credits' => 2,
             'semester' => 'A1S2']);
 
-        Uv::create(['name' => 'Sport',
+        Uv::create(['id' => 5,'name' => 'Sport',
             'credits' => 4,
             'semester' => 'A1S2']);
 
-        Uv::create(['name' => 'Stage Opérateur',
+        Uv::create(['id' => 6,'name' => 'Stage Opérateur',
             'credits' => 2,
             'semester' => 'A1S2']);
 
-        Uv::create(['name' => 'Calcul Scientifique',
+        Uv::create(['id' => 7,'name' => 'Calcul Scientifique',
             'credits' => 4,
             'semester' => 'A1S2']);
 
-        Uv::create(['name' => 'Projet Prime',
+        Uv::create(['id' => 8,'name' => 'Projet Prime',
             'credits' => 2,
             'semester' => 'A1S2']);
 
-        Uv::create(['name' => 'PES',
+        Uv::create(['id' => 9,'name' => 'PES',
             'credits' => 4,
             'semester' => 'A1S2']);
 
-        Uv::create(['name' => 'Programmation',
+        Uv::create(['id' => 10,'name' => 'Programmation',
             'credits' => 5,
             'semester' => 'A1S2']);
 
