@@ -23,9 +23,9 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table'])
 
             $urlRouterProvider.otherwise('studentNotes');
 
-            $mdThemingProvider.theme('default')
-                .primaryPalette("amber")
-                .accentPalette("yellow");
+            //$mdThemingProvider.theme('default')
+                //.primaryPalette("amber")
+                //.accentPalette("yellow");
 
 
         }

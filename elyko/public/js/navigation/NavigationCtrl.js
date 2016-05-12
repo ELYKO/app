@@ -1,10 +1,12 @@
 angular.module('elyko')
     .controller('TabCtrl', [
         '$scope',
-        '$location'
-        , function ($scope, $location) {
+        '$location',
+        'studentNotes'
+        , function ($scope, $location, studentNotes) {
             $scope.selectedIndex = 0;
 
+            $scope.student = studentNotes.getNotes("scuerv14");
 
             $scope.$watch('selectedIndex', function(current, old) {
                 switch (current) {

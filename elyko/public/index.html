@@ -23,6 +23,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Elyko</title>
 
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="lib/bower_components/angular-material/angular-material.css">
     <link rel="stylesheet" href="lib/bower_components/angular-material-data-table/dist/md-data-table.css">
 
@@ -30,15 +32,29 @@
 <body ng-app="elyko" layout="column" ng-cloak>
 
 
-    <md-toolbar ng-controller="TabCtrl">
-        <md-tabs md-selected="selectedIndex" md-center-tabs="true">
-            <md-tab label="Mes Notes"></md-tab>
-            <md-tab label="Mes Competences"></md-tab>
-        </md-tabs>
+<md-toolbar ng-controller="TabCtrl">
+    <div class="md-toolbar-tools">
+        <h2>
+            <span>Elyko</span>
+        </h2>
+        <span flex></span>
 
-    </md-toolbar>
 
-    <md-content ui-view flex layout-padding></md-content>
+        <md-button class="md-icon-button" aria-label="Logout">
+            <md-icon md-font-set="material-icons">
+                exit_to_app
+            </md-icon>
+        </md-button>
+
+    </div>
+    <md-tabs md-selected="selectedIndex" md-center-tabs="true">
+        <md-tab label="Mes Notes"></md-tab>
+        <md-tab label="Mes Competences"></md-tab>
+    </md-tabs>
+
+</md-toolbar>
+
+<md-content ui-view flex layout-padding></md-content>
 
 </div>
 

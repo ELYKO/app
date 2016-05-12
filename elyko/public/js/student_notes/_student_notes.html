@@ -9,11 +9,13 @@
             </tr>
             </thead>
             <tbody md-body>
+            <div>
             <tr md-row ng-repeat="eval in uv.evaluations">
                 <td md-cell>{{eval.name}}</td>
                 <td md-cell>{{eval.coefficient}}%</td>
                 <td md-cell>{{eval.students[0].note}}</td>
             </tr>
+            </div>
             </tbody>
         </table>
     </md-table-container>
