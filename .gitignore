@@ -13,4 +13,8 @@ storage/
 .env
 elyko/.env
 
+#Bower components
+/elyko/public/lib/bower_components
+
+# Intellij
 .idea/
