@@ -40,20 +40,9 @@ class Migration extends Command
      */
     public function handle()
     {
-        /* // Pour des test en local
-        $conn = mysqli_connect('localhost', 'root', '', 'oasis');
-        $result = mysqli_query($conn, "SELECT intIdUtilisateur AS 'id', strNom AS 'last_name', strPrenom AS 'name', strLogin AS 'login', strEmail AS 'email' FROM eleves");
-        $students = array(); if (mysqli_num_rows($result) > 0) {$i = 0; while ($row = mysqli_fetch_assoc($result)) { $students[$i] = $row; $i++; } }
-        foreach($students as $student) {Student::updateOrCreate(['id' => $student['id']],$student);}
-        $result = mysqli_query($conn, "SELECT intIdEvaluation AS 'evaluation_id', intIdEleve AS 'student_id', strvaleur AS 'note' FROM bdn_notes");
-        $notes = array(); if (mysqli_num_rows($result) > 0) {$i = 0; while ($row = mysqli_fetch_assoc($result)) { $notes[$i] = $row; $i++; } }
-        foreach($notes as $note) { Note::firstOrCreate(['evaluation_id' => $note['evaluation_id'], 'student_id' => $note['student_id']]);
-            Note::where(['evaluation_id' => $note['evaluation_id'], 'student_id' => $note['student_id']])->update(['note' => $note['note']]);}
-        $this->info('Migration succeed'); */
-
         // Pour mesurer le temps du script
-        $timestart = microtime(true);
-
+        $timeStart = microtime(true);
+        
         // Connexion a la vue de la base Oasis fourni (Server SQL)
         $conn = mssql_connect('bddoasis.emn.fr:1433','elyko','k53k0kyl3','Notes-eleves');
 
@@ -64,8 +53,6 @@ class Migration extends Command
         // On execute la query
         $result = mssql_query($request, $conn);
 
-        // On appelle la fonction ci-dessous
-        $students = getArray($result);
 
         // Fonction qui remplit une array avec le resusltat d'une requete
         function getArray($result) {
@@ -80,6 +67,8 @@ class Migration extends Command
             return $array;
         }
 
+        // On appelle la fonction ci-dessus
+        $students = getArray($result);
 
         // Select des evaluations
         $request = "SELECT DISTINCT eval.intIdEvaluation AS 'id', eval.intIdProcess AS 'uv_id', eval.strTitre AS 'name', eval.decCoefficient AS 'coefficient', eval.boolBloque AS 'locked'
@@ -188,7 +177,7 @@ class Migration extends Command
         -- Competence (skill) : process de type FPC sans fils
         INNER JOIN process skill ON skill.intIdProcess = note.intIdProcess AND skill.strTypeReferentiel = 'FPC' AND skill.intNbFils = 0
         -- Semestre : process de type ENS, de niveau 2
-        INNER JOIN process sem ON sem.strTypeReferentiel = 'ENS' AND sem.intNiveau = 2 AND UV.intNbFils > 0
+        INNER JOIN process sem ON sem.strTypeReferentiel = 'ENS' AND sem.intNiveau = 2
         -- On ne garde que les notes de competences
         WHERE note.strvaleur IN ('-', '=', '+')
         -- Le semestre est celui du skill
@@ -260,7 +249,7 @@ class Migration extends Command
         // Differents affichage pour des verifications
 
         // Affiche de le temps de l'extraction
-        echo "L'extraction s'execute en " . microtime(true)-$timestart . " sec";
+        echo "L'extraction s'execute en " . number_format(microtime(true)-$timeStart,3) . " sec </br>";
 
         // On affiche le nombre de resultats pour chaque requete
         echo "students : " . count($students) . "</br>";
