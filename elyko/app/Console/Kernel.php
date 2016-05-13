@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\Migration',
-        'App\Console\Commands\Clean'
+        'App\Console\Commands\Clean',
+        'App\Console\Commands\MigrationLocal'
     ];
 
     /**
