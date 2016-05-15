@@ -19,3 +19,4 @@ $app->get('/', function () {
 
 $app->get('/student/{id}', 'StudentController@get');
 $app->get('/evaluation/{id}', 'EvaluationController@get');
+$app->get('/skills/{id}/{semester}', 'SkillController@get');
