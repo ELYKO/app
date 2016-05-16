@@ -1,4 +1,4 @@
-angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table'])
+angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js'])
     .config([
         '$stateProvider',
         '$urlRouterProvider',
@@ -13,6 +13,16 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table'])
                     resolve: {
                         notesPromise: ['$stateParams', 'studentNotes', function ($stateParams, studentNotes) {
                             return studentNotes.getNotes($stateParams.student_login);
+                        }]
+                    }
+                })
+                .state('evaluation', {
+                    url: '/evaluations/{id}',
+                    templateUrl: '/js/evaluations/_evaluation.html',
+                    controller: 'EvaluationCtrl',
+                    resolve: {
+                        evaluationPromise: ['$stateParams', 'evaluations', function ($stateParams, evaluations) {
+                            return evaluations.get($stateParams.id);
                         }]
                     }
                 })
