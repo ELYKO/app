@@ -1,22 +1,16 @@
 angular.module('elyko')
-    .controller('TabCtrl', [
+    .controller('SideNavCtrl', [
         '$scope',
-        '$location',
-        '$mdSidenav',
         'ssSideNav',
         'student',
-        function ($scope, $location, $mdSidenav, ssSideNav, student) {
+        function ($scope, ssSideNav, student) {
 
             $scope.semesters = student.getSemesters().then(function (response) {
                 initializeSideNav(response);
             });
 
             $scope.menu = ssSideNav;
-
-            $scope.showMenu = function () {
-                $mdSidenav('left').toggle();
-            };
-
+            
             function initializeSideNav(semesters) {
 
                 for (var i = 0; i < semesters.length; i++) {
