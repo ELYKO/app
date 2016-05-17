@@ -28,13 +28,20 @@
     <link rel="stylesheet" href="lib/bower_components/angular-material/angular-material.css">
     <link rel="stylesheet" href="lib/bower_components/angular-material-data-table/dist/md-data-table.css">
     <link rel="stylesheet" href="lib/bower_components/angular-chart.js/dist/angular-chart.css">
+    <link rel="stylesheet" href="lib/bower_components/angular-material-sidenav/angular-material-sidenav.css">
 
 </head>
-<body ng-app="elyko" layout="column" ng-cloak>
-
+<body ng-app="elyko" layout="column" ng-cloak flex>
 
 <md-toolbar ng-controller="TabCtrl">
     <div class="md-toolbar-tools">
+
+        <md-button class="md-icon-button" aria-label="Menu" ng-click="showMenu()" hide-gt-sm>
+            <md-icon md-font-set="material-icons">
+                menu
+            </md-icon>
+        </md-button>
+
         <h2>
             <span>Elyko</span>
         </h2>
@@ -51,8 +58,24 @@
 
 </md-toolbar>
 
-<md-content ui-view flex layout-padding></md-content>
+<section layout="row" ng-controller="TabCtrl" flex>
 
+
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2"
+                    md-component-id="left"
+                    md-is-locked-open="$mdMedia('gt-sm')">
+
+            <md-content flex role="navigation" ss-style-color="{'background-color': 'primary.default'}" >
+                <ss-sidenav menu="menu"></ss-sidenav>
+            </md-content>
+
+        </md-sidenav>
+
+
+    <md-content ui-view flex layout-padding></md-content>
+
+
+</section>
 
 </body>
 
@@ -65,7 +88,9 @@
 <script src="lib/bower_components/Chart.js/Chart.js"></script>
 <script src="lib/bower_components/angular-chart.js/dist/angular-chart.js"></script>
 <script src="lib/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="lib/bower_components/angular-material-sidenav/angular-material-sidenav.js"></script>
 <script src="js/app.js"></script>
+<script src="js/navigation/student.js"></script>
 <script src="js/navigation/NavigationCtrl.js"></script>
 <script src="js/navigation/navigation.js"></script>
 <script src="js/student_notes/studentNotes.js"></script>

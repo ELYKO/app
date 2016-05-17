@@ -1,13 +1,14 @@
-angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js'])
+angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js', 'sasrio.angular-material-sidenav'])
     .config([
         '$stateProvider',
         '$urlRouterProvider',
         '$mdThemingProvider',
-        function ($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+        'ssSideNavSectionsProvider',
+        function ($stateProvider, $urlRouterProvider, $mdThemingProvider, ssSideNavSectionsProvider) {
 
             $stateProvider
                 .state('notes', {
-                    url: '/notes/{student_login}',
+                    url: '/notes/{student_login}/{semester}',
                     templateUrl: '/js/student_notes/_student_notes.html',
                     controller: 'StudentNotesCtrl',
                     resolve: {
@@ -27,15 +28,34 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js']
                     }
                 })
                 .state('skills', {
-                    url: '/skills',
+                    url: '/skills/{student_login}/{semester}',
                     templateUrl: 'js/skills/_skills.html'
                 });
 
             $urlRouterProvider.otherwise('studentNotes');
 
-            //$mdThemingProvider.theme('default')
-                //.primaryPalette("amber")
-                //.accentPalette("yellow");
+
+            $mdThemingProvider.theme('default')
+            .primaryPalette("teal")
+            .accentPalette("amber");
+
+            ssSideNavSectionsProvider.initWithSections([
+                {
+                    name: 'Mes Notes',
+                    type: 'toggle',
+                    pages: []
+                },
+                {
+                    name: 'Mes Competences',
+                    type: 'toggle',
+                    pages: []
+
+                }
+            ]);
+
+            ssSideNavSectionsProvider.initWithTheme($mdThemingProvider);
+
+
 
 
         }

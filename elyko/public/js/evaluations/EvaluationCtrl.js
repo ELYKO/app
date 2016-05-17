@@ -8,7 +8,7 @@ angular.module('elyko')
         function ($scope, evaluationPromise) {
 
             $scope.labels = getLabels();
-            $scope.data = getData();
+            $scope.data = [getData()];
 
             function getLabels() {
                 var labels = [];

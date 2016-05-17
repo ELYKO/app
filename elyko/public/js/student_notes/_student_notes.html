@@ -1,7 +1,7 @@
 <md-card ng-repeat="uv in student.uvs">
     <md-table-container>
         <table md-table>
-            <thead md-head style="background-color: #3F51B5">
+            <thead md-head style="background-color: #B2DFDB">
             <tr md-row>
                 <th md-column><span>{{uv.name}}</span></th>
                 <th md-column md-numeric><span>{{uv.credits}} ECTS</span></th>
@@ -10,7 +10,7 @@
             </thead>
             <tbody md-body>
             <div>
-            <tr md-row ng-repeat="eval in uv.evaluations">
+            <tr md-row ng-repeat="eval in uv.evaluations" ui-sref="evaluation({id: '{{eval.id}}'})" md-select>
                 <td md-cell>{{eval.name}}</td>
                 <td md-cell>{{eval.coefficient}}%</td>
                 <td md-cell>{{eval.students[0].note}}</td>
