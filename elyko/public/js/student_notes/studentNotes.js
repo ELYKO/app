@@ -4,8 +4,8 @@ angular.module('elyko')
         function ($http) {
             var o = {};
 
-            o.getNotes = function (studentLogin) {
-                return $http.get('/student/' + studentLogin).then(function (response) {
+            o.getNotes = function (studentLogin, semester) {
+                return $http.get('/student/' + studentLogin + "/" + semester).then(function (response) {
                     return response.data;
                 });
             };

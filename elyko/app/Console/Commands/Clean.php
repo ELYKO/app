@@ -41,12 +41,12 @@ class Clean extends Command
      */
     public function handle()
     {
-        Student::truncate();
-        Evaluation::truncate();
-        Note::truncate();
-        Uv::truncate();
-        Inscription::truncate();
         SkillAssessed::truncate();
+        Note::truncate();
+        Inscription::truncate();
+        Evaluation::truncate();
         Skill::truncate();
+        Uv::truncate();
+        Student::truncate();
     }
 }

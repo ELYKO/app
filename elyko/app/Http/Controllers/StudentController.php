@@ -7,11 +7,14 @@ use App\Student;
 class StudentController extends Controller
 {
 
-    public function get($studentLogin)
+    public function get($studentLogin, $semester)
     {
         $student_notes = Student::with([
+            'uvs'=> function ($query) use ($semester) {
+                $query->where('semester', $semester);
+            },
             'uvs.evaluations' => function ($query) use ($studentLogin) {
-                $query->where('locked', false);
+                $query->where('locked', true);
                 $query->whereHas('students', function ($query) use ($studentLogin) {
                     $query->where('login', $studentLogin);
                 });

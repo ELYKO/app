@@ -13,7 +13,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     controller: 'StudentNotesCtrl',
                     resolve: {
                         notesPromise: ['$stateParams', 'studentNotes', function ($stateParams, studentNotes) {
-                            return studentNotes.getNotes($stateParams.student_login);
+                            return studentNotes.getNotes($stateParams.student_login, $stateParams.semester);
                         }]
                     }
                 })
@@ -36,8 +36,8 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
 
 
             $mdThemingProvider.theme('default')
-            .primaryPalette("teal")
-            .accentPalette("amber");
+                .primaryPalette("teal")
+                .accentPalette("amber");
 
             ssSideNavSectionsProvider.initWithSections([
                 {
@@ -54,8 +54,6 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
             ]);
 
             ssSideNavSectionsProvider.initWithTheme($mdThemingProvider);
-
-
 
 
         }
