@@ -11,7 +11,6 @@ class CreateSkillStudentTable extends Migration {
 			$table->integer('skill_id')->unsigned();
 			$table->integer('student_id')->unsigned();
 			$table->string('value');
-			$table->primary(['skill_id','student_id']);
 		});
 	}
 

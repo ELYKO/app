@@ -30,18 +30,5 @@ class Student extends Model {
 		// Declaration de la cle etrangere de skillAssessed (skill_evaluation)
 		return $this->belongsToMany('App\Skill');
 	}
-
-	public function semesters()
-	{
-		$semesters = array();
-		$uvs = $this->uvs()->get();
-		foreach ($uvs as $uv) {
-			if (!in_array($uv->semester, $semesters)) {
-				array_push($semesters,$uv->semester);
-			}
-		}
-		arsort($semesters);
-		return $semesters;
-	}
-
+	
 }

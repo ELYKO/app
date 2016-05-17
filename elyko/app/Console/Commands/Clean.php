@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Evaluation;
 use App\Inscription;
+use App\Skill;
 use App\Student;
 use App\Note;
 use App\SkillAssessed;
@@ -46,5 +47,6 @@ class Clean extends Command
         Uv::truncate();
         Inscription::truncate();
         SkillAssessed::truncate();
+        Skill::truncate();
     }
 }
