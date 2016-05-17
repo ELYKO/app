@@ -11,7 +11,7 @@ class CreateEvaluationsTable extends Migration {
 			$table->integer('id')->unsigned();
 			$table->integer('uv_id')->unsigned();
 			$table->string('name');
-			$table->decimal('coefficient');
+			$table->float('coefficient');
 			$table->boolean('locked');
 			$table->primary('id');
 		});
