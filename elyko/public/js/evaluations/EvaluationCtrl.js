@@ -7,6 +7,9 @@ angular.module('elyko')
         'evaluationPromise',
         function ($scope, evaluationPromise) {
 
+            $scope.name = evaluationPromise.name;
+            $scope.coefficient = evaluationPromise.coefficient;
+            $scope.average = evaluationPromise.average;
             $scope.labels = getLabels();
             $scope.data = [getData()];
 
