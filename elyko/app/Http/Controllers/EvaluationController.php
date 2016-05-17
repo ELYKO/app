@@ -11,12 +11,12 @@ class EvaluationController extends Controller
         $evaluation = Evaluation::find($id);
         $notes = Note::where(['evaluation_id' => $id])->get();
         $detail = array('average'=>$this->average($notes),'name'=>$evaluation->name,
-            'coefficient'=>$evaluation->coefficient,'A'=>0,'B'=>0,'C'=>0,'D'=>0,'E'=>0,'FX'=>0,'F'=>0);
+            'coefficient'=>$evaluation->coefficient,'notes'=>array('A'=>0,'B'=>0,'C'=>0,'D'=>0,'E'=>0,'FX'=>0,'F'=>0));
         foreach ($notes as $note) {
             $value = $note['note'];
             if (is_numeric($value))
                 $value = $this->digitToLetter($value);
-            $detail[$value]++;
+            $detail['notes'][$value]++;
         }
         return response()->json($detail);
     }
