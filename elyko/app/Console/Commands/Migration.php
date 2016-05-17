@@ -122,7 +122,7 @@ class Migration extends Command
         END)
         -- On ne garde que les process ayant des ECTS numeriques
         AND ISNUMERIC(credits.strValeur) > 0
-        ORDER BY semester";
+        ORDER BY id, credits DESC";
 
         $result = mssql_query($request, $conn);
 
@@ -132,8 +132,10 @@ class Migration extends Command
             while ($row = mssql_fetch_assoc($result)) {
                 // On elimine les uvs sans ECTS
                 if ($row['credits'] > 0) {
-                    $uvs[$i] = $row;
-                    $i++;
+                    if ($i == 0 || $row['id'] != $uvs[$i - 1]['id']) {
+                        $uvs[$i] = $row;
+                        $i++;
+                    }
                 }
             }
         }
@@ -198,7 +200,7 @@ class Migration extends Command
                 $skillsAssessed[$i]['student_id'] = $row['student_id'];
                 $skillsAssessed[$i]['value'] = $row['value'];
                 // On associe chaque paire (name,semester) a un id pour eviter les repetitions dans la table skills
-                $skillsAssessed[$i]['id'] = getIdSkill($row['semester'],$row['name']);
+                $skillsAssessed[$i]['skill_id'] = getIdSkill($row['semester'],$row['name']);
                 $i++;
             }
         }
@@ -246,100 +248,64 @@ class Migration extends Command
         // On ferme la connexion de la bdd Oasis
         mssql_close($conn);
 
-        // Differents affichage pour des verifications
+        $intermediaryTime = microtime(true);
+        echo "L'extraction s'execute en " . number_format($intermediaryTime - $timeStart, 3) . " sec </br>";
 
-        // Affiche de le temps de l'extraction
-        echo "L'extraction s'execute en " . number_format(microtime(true)-$timeStart,3) . " sec </br>";
+        $conn = mysqli_connect('cagiva.emn.fr', 'elyko', 'k53k0kyl3', 'elyko');
 
-        // On affiche le nombre de resultats pour chaque requete
-        echo "students : " . count($students) . "</br>";
-        echo "evaluations : " . count($evaluations) . "</br>";
-        echo "notes : " . count($notes) . "</br>";
-        echo "uvs : " . count($uvs) . "</br>";
-        echo "inscriptions : " . count($inscriptions) . "</br>";
-        echo "skillsAssessed : " . count($skillsAssessed) . "</br>";
+        mysqli_query($conn, 'TRUNCATE students');
+        mysqli_query($conn, 'TRUNCATE evaluation_student');
+        mysqli_query($conn, 'TRUNCATE evaluations');
+        mysqli_query($conn, 'TRUNCATE uvs');
+        mysqli_query($conn, 'TRUNCATE inscriptions');
+        mysqli_query($conn, 'TRUNCATE skill_student');
 
-        // Pour obtenir le nom et l'id d'un eleve avec son login
-        $login = 'abarre14'; // A renseigner
-        $id = 0; $name = '';
-        for ($i = 0; $i < count($students); $i++) {
-            if ($students[$i]['login']==$login) {
-                $id = $students[$i]['id'];
-                $name = $students[$i]['name'];
-            }
+        $sql = array();
+        foreach ($students as $student) {
+            $sql[] = '(' . $student['id'] . ', "' . $student['last_name'] . '", "' . $student['name'] . '", "' . $student['email'] . '", "' . $student['login'] . '")';
         }
+        mysqli_query($conn, 'INSERT INTO students (id, last_name, name, email, login) VALUES ' . implode(',', $sql));
 
-        echo "</br>" . "Liste des UVs de " . $name . " (". $id . ")" . "</br>";
-        for ($i = 0; $i<count($inscriptions); $i++) {
-            if ($inscriptions[$i]['student_id']== $id) {
-                for ($i2 = 0; $i2<count($uvs); $i2++) {
-                    if ($uvs[$i2]['id'] == $inscriptions[$i]['uv_id']) {
-                        echo $uvs[$i2]['semester'] . " " . $uvs[$i2]['credits'] . " " . $inscriptions[$i]['grade'] ." " . $uvs[$i2]['name'] . "</br>";
-                    }
-                }
-            }
+        $sql = array();
+        foreach ($notes as $note) {
+            $sql[] = '(' . $note['evaluation_id'] . ', ' . $note['student_id'] . ', "' . $note['note'] . '")';
         }
+        mysqli_query($conn, 'INSERT INTO evaluation_student (evaluation_id, student_id, note) VALUES ' . implode(',', $sql));
 
-        echo "</br>" . "Liste des evaluations de " . $name . " (". $id . ")" . "</br>";
-        for ($i = 0; $i<count($notes); $i++) {
-            if ($notes[$i]['student_id']== $id) {
-                for ($i2 = 0; $i2<count($evaluations); $i2++) {
-                    if ($evaluations[$i2]['id'] == $notes[$i]['evaluation_id']) {
-                        echo $notes[$i]['note'] . " " . $evaluations[$i2]['coefficient'] . " " . $evaluations[$i2]['locked'] ." " . $evaluations[$i2]['name'] . "</br>";
-                    }
-                }
-            }
+        $sql = array();
+        foreach ($evaluations as $evaluation) {
+            // On retire les " du name pour eviter une exception
+            $evaluation['name'] = str_replace("\"", "", $evaluation['name']);
+            if ($evaluation['coefficient'] <= 1)
+                //Pour un affichage uni des coefficients
+                $evaluation['coefficient'] *= 100;
+            $sql[] = '(' . $evaluation['id'] . ', ' . $evaluation['uv_id'] . ', "' . $evaluation['name'] . '", ' . $evaluation['coefficient'] . ', ' . $evaluation['locked'] . ')';
         }
+        mysqli_query($conn, 'INSERT INTO evaluations (id, uv_id, name, coefficient, locked) VALUES ' . implode(',', $sql));
 
-        echo "</br>" . "Liste des skills de " . $name . " (". $id . ")" . "</br>";
-        for ($i = 0; $i<count($skillsAssessed); $i++) {
-            if ($skillsAssessed[$i]['student_id']== $id) {
-                echo $skillsAssessed[$i]['id'] . " " . $skillsAssessed[$i]['value'] . " " . "</br>";
-            }
+        $sql = array();
+        foreach ($uvs as $uv) {
+            // Certains UV ont des credits non entiers avec virgule (car stocke sous string)
+            $uv['credits'] = str_replace(",", ".", $uv['credits']);
+            $sql[] = '(' . $uv['id'] . ', "' . $uv['name'] . '", ' . $uv['credits'] . ', "' . $uv['semester'] . '")';
         }
+        mysqli_query($conn, 'INSERT INTO uvs (id, name, credits, semester) VALUES ' . implode(',', $sql));
 
-
-        // Insert des students
-        foreach($students as $student) {
-            Student::updateOrCreate(['id' => $student['id']],$student);
-        }
-
-
-        // Insert des evaluations
-        foreach($evaluations as $evaluation) {
-            Evaluation::updateOrCreate(['id' => $evaluation['id']],$evaluation);
-        }
-
-
-        // Insert des notes (updateOrCreate don't work on composite key)
-        foreach($notes as $note) {
-            Note::firstOrCreate(['evaluation_id' => $note['evaluation_id'], 'student_id' => $note['student_id']]);
-            Note::where(['evaluation_id' => $note['evaluation_id'], 'student_id' => $note['student_id']])
-                -> update(['note' => $note['note']]);
-        }
-
-
-        // Insert des uvs
-        foreach($uvs as $uv) {
-            Uv::updateOrCreate(['id' => $uv['id']],$uv);
-        }
-
-
-        // Insert des inscriptions
+        $sql = array();
         foreach($inscriptions as $inscription) {
-            Inscription::firstOrCreate(['uv_id' => $inscription['uv_id'], 'student_id' => $inscription['student_id']]);
-            Inscription::where(['uv_id' => $inscription['uv_id'], 'student_id' => $inscription['student_id']])
-                -> update(['grade' => $inscription['grade']]);
+            $sql[] = '(' . $inscription['student_id'] . ', ' . $inscription['uv_id'] . ', "' . $inscription['grade'] . '")';
         }
+        mysqli_query($conn,'INSERT INTO student_uv (student_id, uv_id, grade) VALUES '.implode(',', $sql));
 
-
-        // Insert des skills assessed
+        $sql = array();
         foreach($skillsAssessed as $skillAssessed) {
-            SkillAssessed::firstOrCreate(['skill_id' => $skillAssessed['skill_id'], 'student_id' => $skillAssessed['student_id']]);
-            SkillAssessed::where(['skill_id' => $skillAssessed['skill_id'], 'student_id' => $skillAssessed['student_id']])
-                -> update(['value' => $skillAssessed['value']]);
+            $sql[] = '(' . $skillAssessed['skill_id'] . ', ' . $skillAssessed['student_id'] . ', "' . $skillAssessed['value'] . '")';
         }
+        mysqli_query($conn,'INSERT INTO skill_student (skill_id, student_id, value) VALUES '.implode(',', $sql));
 
+        mysqli_close($conn);
+
+        echo "L'insertion s'execute en " . number_format(microtime(true) - $intermediaryTime, 3) . " sec </br>";
 
         $this->info('Migration succeed');
     }
