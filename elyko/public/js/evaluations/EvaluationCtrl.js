@@ -13,8 +13,8 @@ angular.module('elyko')
             function getLabels() {
                 var labels = [];
 
-                for (var label in evaluationPromise) {
-                    if (evaluationPromise[label] != 0 && evaluationPromise.hasOwnProperty(label)) {
+                for (var label in evaluationPromise.notes) {
+                    if (evaluationPromise.notes[label] != 0 && evaluationPromise.notes.hasOwnProperty(label)) {
                         labels.push(label);
                     }
                 }
@@ -23,12 +23,11 @@ angular.module('elyko')
             }
 
             function getData() {
-                console.log(evaluationPromise);
                 var data = [];
 
-                for (var label in evaluationPromise) {
-                    if (evaluationPromise[label] != 0 && evaluationPromise.hasOwnProperty(label)) {
-                        data.push(evaluationPromise[label]);
+                for (var label in evaluationPromise.notes) {
+                    if (evaluationPromise.notes[label] != 0 && evaluationPromise.notes.hasOwnProperty(label)) {
+                        data.push(evaluationPromise.notes[label]);
                     }
                 }
 

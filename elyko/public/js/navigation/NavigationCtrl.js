@@ -7,8 +7,9 @@ angular.module('elyko')
         'student',
         function ($scope, $location, $mdSidenav, ssSideNav, student) {
 
-
-            initializeSideNav();
+            $scope.semesters = student.getSemesters().then(function (response) {
+                initializeSideNav(response);
+            });
 
             $scope.menu = ssSideNav;
 
@@ -16,9 +17,7 @@ angular.module('elyko')
                 $mdSidenav('left').toggle();
             };
 
-            function initializeSideNav() {
-
-                var semesters = student.getSemesters();
+            function initializeSideNav(semesters) {
 
                 for (var i = 0; i < semesters.length; i++) {
 
