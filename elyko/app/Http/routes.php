@@ -18,6 +18,6 @@ $app->get('/', function () {
 });
 
 $app->get('/student/{login}', 'StudentController@get');
-$app->get('/studentSemesters/{login}', 'StudentController@semesters');
+$app->get('/student/{login}/semesters', 'StudentController@semesters');
 $app->get('/evaluation/{id}', 'EvaluationController@get');
 $app->get('/skills/{login}/{semester}', 'SkillController@get');
