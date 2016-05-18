@@ -20,12 +20,12 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 1,
             'uv_id' => 3,
-            'grade' => '0.1']);
+            'grade' => 'F']);
 
         Inscription::create([
             'student_id' => 1,
             'uv_id' => 4,
-            'grade' => '1.2']);
+            'grade' => 'F']);
 
         Inscription::create([
             'student_id' => 1,
@@ -50,7 +50,7 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 1,
             'uv_id' => 10,
-            'grade' => '7.9']);
+            'grade' => 'FX']);
 
         Inscription::create([
             'student_id' => 2,
@@ -85,7 +85,7 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 2,
             'uv_id' => 7,
-            'grade' => '6.4']);
+            'grade' => 'FX']);
 
         Inscription::create([
             'student_id' => 2,
@@ -95,32 +95,32 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 2,
             'uv_id' => 9,
-            'grade' => '4.4']);
+            'grade' => 'F']);
 
         Inscription::create([
             'student_id' => 2,
             'uv_id' => 10,
-            'grade' => '3.5']);
+            'grade' => 'F']);
 
         Inscription::create([
             'student_id' => 3,
             'uv_id' => 1,
-            'grade' => '8.4']);
+            'grade' => 'FX']);
 
         Inscription::create([
             'student_id' => 3,
             'uv_id' => 2,
-            'grade' => '0.0']);
+            'grade' => 'A']);
 
         Inscription::create([
             'student_id' => 3,
             'uv_id' => 3,
-            'grade' => '6.2']);
+            'grade' => 'C']);
 
         Inscription::create([
             'student_id' => 3,
             'uv_id' => 4,
-            'grade' => '12.0']);
+            'grade' => 'C']);
 
         Inscription::create([
             'student_id' => 3,
@@ -135,12 +135,12 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 3,
             'uv_id' => 7,
-            'grade' => '3.6']);
+            'grade' => 'F']);
 
         Inscription::create([
             'student_id' => 3,
             'uv_id' => 8,
-            'grade' => '12.6']);
+            'grade' => 'C']);
 
         Inscription::create([
             'student_id' => 3,
@@ -165,12 +165,12 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 4,
             'uv_id' => 3,
-            'grade' => '9.6']);
+            'grade' => 'E']);
 
         Inscription::create([
             'student_id' => 4,
             'uv_id' => 4,
-            'grade' => '12.0']);
+            'grade' => 'D']);
 
         Inscription::create([
             'student_id' => 4,
@@ -185,7 +185,7 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 4,
             'uv_id' => 7,
-            'grade' => '9.1']);
+            'grade' => 'E']);
 
         Inscription::create([
             'student_id' => 4,
@@ -200,7 +200,7 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 4,
             'uv_id' => 10,
-            'grade' => '10.3']);
+            'grade' => 'D']);
 
         Inscription::create([
             'student_id' => 5,
@@ -210,22 +210,22 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 5,
             'uv_id' => 2,
-            'grade' => '8.6']);
+            'grade' => 'E']);
 
         Inscription::create([
             'student_id' => 5,
             'uv_id' => 3,
-            'grade' => '8.2']);
+            'grade' => 'B']);
 
         Inscription::create([
             'student_id' => 5,
             'uv_id' => 4,
-            'grade' => '6.3']);
+            'grade' => 'A']);
 
         Inscription::create([
             'student_id' => 5,
             'uv_id' => 5,
-            'grade' => '15.4']);
+            'grade' => 'B']);
 
         Inscription::create([
             'student_id' => 5,
@@ -235,12 +235,12 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 5,
             'uv_id' => 7,
-            'grade' => '18.8']);
+            'grade' => 'A']);
 
         Inscription::create([
             'student_id' => 5,
             'uv_id' => 8,
-            'grade' => '14.4']);
+            'grade' => 'B']);
 
         Inscription::create([
             'student_id' => 5,
@@ -255,7 +255,7 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 6,
             'uv_id' => 1,
-            'grade' => '4.9']);
+            'grade' => 'F']);
 
         Inscription::create([
             'student_id' => 6,
@@ -270,7 +270,7 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 6,
             'uv_id' => 4,
-            'grade' => '17.9']);
+            'grade' => 'A']);
 
         Inscription::create([
             'student_id' => 6,
@@ -280,12 +280,12 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 6,
             'uv_id' => 6,
-            'grade' => '14.4']);
+            'grade' => 'B']);
 
         Inscription::create([
             'student_id' => 6,
             'uv_id' => 7,
-            'grade' => '2.0']);
+            'grade' => 'F']);
 
         Inscription::create([
             'student_id' => 6,
@@ -310,12 +310,12 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 7,
             'uv_id' => 2,
-            'grade' => '17.4']);
+            'grade' => 'A']);
 
         Inscription::create([
             'student_id' => 7,
             'uv_id' => 3,
-            'grade' => '18.0']);
+            'grade' => 'A']);
 
         Inscription::create([
             'student_id' => 7,
@@ -330,17 +330,17 @@ class StudentUVTableSeeder extends Seeder
         Inscription::create([
             'student_id' => 7,
             'uv_id' => 6,
-            'grade' => '3.1']);
+            'grade' => 'F']);
 
         Inscription::create([
             'student_id' => 7,
             'uv_id' => 7,
-            'grade' => '14.0']);
+            'grade' => 'B']);
 
         Inscription::create([
             'student_id' => 7,
             'uv_id' => 8,
-            'grade' => '13.1']);
+            'grade' => 'C']);
 
         Inscription::create([
             'student_id' => 7,

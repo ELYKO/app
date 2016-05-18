@@ -268,6 +268,7 @@ class Migration extends Command
 
         $sql = array();
         foreach ($notes as $note) {
+            $note['note'] = str_replace(",", ".", $note['note']);
             $sql[] = '(' . $note['evaluation_id'] . ', ' . $note['student_id'] . ', "' . $note['note'] . '")';
         }
         mysqli_query($conn, 'INSERT INTO evaluation_student (evaluation_id, student_id, note) VALUES ' . implode(',', $sql));

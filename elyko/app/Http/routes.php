@@ -22,3 +22,4 @@ $app->get('/student/{login}/semesters', 'StudentController@semesters');
 $app->get('/student/{studentLogin}/{semester}', 'StudentController@get');
 $app->get('/evaluation/{id}', 'EvaluationController@get');
 $app->get('/skills/{login}/{semester}', 'SkillController@get');
+$app->get('/uv/{id}', 'UvController@get');
