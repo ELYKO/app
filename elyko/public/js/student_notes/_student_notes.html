@@ -3,7 +3,7 @@
         <table md-table>
             <thead md-head style="background-color: #B2DFDB">
             <tr md-row>
-                <th md-column style="white-space: normal"><span>{{uv.name}}</span></th>
+                <th md-column><span>{{uv.name}}</span></th>
                 <th md-column md-numeric><span>{{uv.credits}} ECTS</span></th>
                 <th md-column md-numeric>{{uv.pivot.grade}}</th>
             </tr>
@@ -12,7 +12,7 @@
             <div>
                 <tr md-row ng-repeat="eval in uv.evaluations" ui-sref="evaluation({id: '{{eval.id}}'})" md-select>
                     <td md-cell>{{eval.name}}</td>
-                    <td md-cell>{{eval.coefficient}}%</td>
+                    <td md-cell>{{eval.coefficient}}</td>
                     <td md-cell>{{eval.students[0].note}}</td>
                 </tr>
             </div>

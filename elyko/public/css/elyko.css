@@ -1,0 +1,15 @@
+table.md-table th.md-column {
+    white-space: normal;
+}
+
+@media screen and (max-device-width: 320px) {
+    table.md-table th.md-column {
+        font-size: 10px;
+    }
+
+    table.md-table td.md-cell {
+        font-size: 10px;
+    }
+}
+
+
