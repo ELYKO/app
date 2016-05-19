@@ -8,7 +8,7 @@ angular.module('elyko')
 
             var o = {};
 
-            var login = "scuerv14";
+            var login = "abarre14";
 
             o.setLogin = function (newLogin) {
                 login = newLogin;
