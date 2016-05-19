@@ -1,3 +1,22 @@
+.md-sidebar-image-header {
+    text-align: center;
+}
+
+
+md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-color: white;
+    color: white;
+}
+
+md-input-container .md-errors-spacer{
+    min-height: 0px;
+}
+
+img {
+    display:inline-block;
+    margin: 0 auto;
+}
+
 table.md-table th.md-column {
     white-space: normal;
 }

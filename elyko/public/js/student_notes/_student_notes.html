@@ -1,5 +1,5 @@
 <div layout="column" flex>
-    <md-card ng-repeat="uv in student.uvs">
+    <md-card ng-repeat="uv in student.uvs | filter: filter">
         <md-table-container>
             <table md-table>
                 <thead md-head style="background-color: #B2DFDB">
@@ -11,7 +11,8 @@
                 </thead>
                 <tbody md-body>
                 <div>
-                    <tr md-row ng-repeat="eval in uv.evaluations" ui-sref="evaluation({id: '{{eval.id}}'})" md-select>
+                    <tr md-row ng-repeat="eval in uv.evaluations | filter: filter"
+                        ui-sref="evaluation({id: '{{eval.id}}'})" md-select>
                         <td md-cell>{{eval.name}}</td>
                         <td md-cell>{{eval.coefficient}}</td>
                         <td md-cell>{{eval.students[0].note}}</td>

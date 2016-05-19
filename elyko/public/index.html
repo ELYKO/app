@@ -31,9 +31,9 @@
     <link rel="stylesheet" href="css/elyko.css">
 
 </head>
-<body ng-app="elyko" layout="column" ng-cloak flex>
+<body ng-app="elyko" layout="column" ng-cloak flex ng-controller="ToolbarCtrl">
 
-<md-toolbar ng-controller="ToolbarCtrl">
+<md-toolbar>
     <div class="md-toolbar-tools">
 
         <md-button class="md-icon-button" aria-label="Menu" ng-click="showMenu()" hide-gt-sm>
@@ -42,11 +42,19 @@
             </md-icon>
         </md-button>
 
-        <h2>
-            <span>Elyko</span>
-        </h2>
         <span flex></span>
 
+        <md-button class="md-icon-button" aria-label="Search" ng-click="showSearchBar=!showSearchBar"
+                   ng-show="searchButtonIsVisible()">
+            <md-icon md-font-set="material-icons">
+                search
+            </md-icon>
+        </md-button>
+
+        <md-input-container ng-show="searchBarIsVisible()">
+            <label>&nbsp;</label>
+            <input type="text" ng-model="filter" placeholder="recherche...">
+        </md-input-container>
 
         <md-button class="md-icon-button" aria-label="Logout">
             <md-icon md-font-set="material-icons">
@@ -64,6 +72,12 @@
     <md-sidenav class="md-sidenav-left md-whiteframe-z2"
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')">
+
+        <header class="md-sidebar-image-header">
+            <img src="images/logo.png" alt="">
+        </header>
+
+        <md-divider></md-divider>
 
         <md-content flex role="navigation" ss-style-color="{'background-color': 'primary.default'}">
             <ss-sidenav menu="menu"></ss-sidenav>
@@ -94,6 +108,7 @@
 <script src="lib/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="lib/bower_components/angular-material-sidenav/angular-material-sidenav.js"></script>
 <script src="js/app.js"></script>
+<script src="js/navigation/search.js"></script>
 <script src="js/navigation/student.js"></script>
 <script src="js/navigation/SideNavCtrl.js"></script>
 <script src="js/navigation/ToolbarCtrl.js"></script>
