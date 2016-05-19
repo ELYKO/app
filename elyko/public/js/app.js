@@ -29,7 +29,13 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                 })
                 .state('skills', {
                     url: '/skills/{student_login}/{semester}',
-                    templateUrl: 'js/skills/_skills.html'
+                    templateUrl: 'js/skills/_skills.html',
+                    controller: 'SkillsCtrl',
+                    resolve: {
+                        skillsPromise: ['$stateParams', 'skills', function($stateParams, skills) {
+                            return skills.get($stateParams.student_login, $stateParams.semester);
+                        }]
+                    }
                 });
 
             $urlRouterProvider.otherwise('studentNotes');

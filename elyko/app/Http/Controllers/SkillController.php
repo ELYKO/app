@@ -9,7 +9,7 @@ class SkillController extends Controller
 {
     public function get($login, $semester) {
         $studentId = Student::where(['login'=>$login])->first()->id;
-        $detail = array('IGA'=>array(50,0),'IGB'=>array(50,0),'interpA'=>array(50,0),'interpB'=>array(50,0),'intraA'=>array(50,0),'intraB'=>array(50,0),'intraC'=>array(50,0), 'STA'=>array(50,0), 'STB'=>array(50,0), 'STC'=>array(50,0));
+        $detail = array('IGA'=>array(1,0),'IGB'=>array(1,0),'interpA'=>array(1,0),'interpB'=>array(1,0),'intraA'=>array(1,0),'intraB'=>array(1,0),'intraC'=>array(1,0), 'STA'=>array(1,0), 'STB'=>array(1,0), 'STC'=>array(1,0));
         $assessments = SkillAssessed::where(['student_id'=>$studentId])->join('skills','skill_student.skill_id', '=', 'skills.id')->where(['semester'=>$semester])->get();
         foreach ($assessments as $assessment) {
            $name = $assessment->name;
@@ -22,9 +22,9 @@ class SkillController extends Controller
     
     function symbolToDigits($value) {
         switch ($value) {
-            case "+" : $digit = 100; break;
+            case "+" : $digit = 2; break;
             case "-" : $digit = 0; break;
-            default : $digit = 50;
+            default : $digit = 1;
         }
         return $digit;
     }

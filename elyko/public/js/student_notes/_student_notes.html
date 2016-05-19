@@ -1,22 +1,24 @@
-<md-card ng-repeat="uv in student.uvs">
-    <md-table-container>
-        <table md-table>
-            <thead md-head style="background-color: #B2DFDB">
-            <tr md-row>
-                <th md-column><span>{{uv.name}}</span></th>
-                <th md-column md-numeric><span>{{uv.credits}} ECTS</span></th>
-                <th md-column md-numeric>{{uv.pivot.grade}}</th>
-            </tr>
-            </thead>
-            <tbody md-body>
-            <div>
-                <tr md-row ng-repeat="eval in uv.evaluations" ui-sref="evaluation({id: '{{eval.id}}'})" md-select>
-                    <td md-cell>{{eval.name}}</td>
-                    <td md-cell>{{eval.coefficient}}</td>
-                    <td md-cell>{{eval.students[0].note}}</td>
+<div layout="column" flex>
+    <md-card ng-repeat="uv in student.uvs">
+        <md-table-container>
+            <table md-table>
+                <thead md-head style="background-color: #B2DFDB">
+                <tr md-row>
+                    <th md-column><span>{{uv.name}}</span></th>
+                    <th md-column md-numeric><span>{{uv.credits}} ECTS</span></th>
+                    <th md-column md-numeric>{{uv.pivot.grade}}</th>
                 </tr>
-            </div>
-            </tbody>
-        </table>
-    </md-table-container>
-</md-card>
+                </thead>
+                <tbody md-body>
+                <div>
+                    <tr md-row ng-repeat="eval in uv.evaluations" ui-sref="evaluation({id: '{{eval.id}}'})" md-select>
+                        <td md-cell>{{eval.name}}</td>
+                        <td md-cell>{{eval.coefficient}}</td>
+                        <td md-cell>{{eval.students[0].note}}</td>
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+        </md-table-container>
+    </md-card>
+</div>
