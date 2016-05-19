@@ -4,4 +4,5 @@ angular.module('elyko')
         'notesPromise',
         function ($scope, notesPromise) {
             $scope.student = notesPromise[0];
-        }]);
+        }
+    ]);

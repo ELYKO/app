@@ -32,7 +32,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     templateUrl: 'js/skills/_skills.html',
                     controller: 'SkillsCtrl',
                     resolve: {
-                        skillsPromise: ['$stateParams', 'skills', function($stateParams, skills) {
+                        skillsPromise: ['$stateParams', 'skills', function ($stateParams, skills) {
                             return skills.get($stateParams.student_login, $stateParams.semester);
                         }]
                     }
@@ -43,7 +43,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
 
             $mdThemingProvider.theme('default')
                 .primaryPalette("teal")
-                .accentPalette("amber");
+                .accentPalette("indigo");
 
             ssSideNavSectionsProvider.initWithSections([
                 {

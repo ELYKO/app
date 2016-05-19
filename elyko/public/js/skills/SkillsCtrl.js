@@ -7,8 +7,8 @@ angular.module('elyko')
         '$scope',
         '$stateParams',
         'skillsPromise',
-        function($scope, $stateParams, skillsPromise) {
-            
+        function ($scope, $stateParams, skillsPromise) {
+
             $scope.data = [get(skillsPromise, 'data')];
             $scope.labels = get(skillsPromise, 'labels');
             $scope.semester = $stateParams.semester;
@@ -18,8 +18,8 @@ angular.module('elyko')
 
                 for (var skill in skillsPromise) {
                     if (skillsPromise.hasOwnProperty(skill)) {
-                        if (thingToGet=='labels') tab.push(skill + " (" + skillsPromise[skill][1] + ")");
-                        else if (thingToGet=='data') tab.push(skillsPromise[skill][0]);
+                        if (thingToGet == 'labels') tab.push(skill + " (" + skillsPromise[skill][1] + ")");
+                        else if (thingToGet == 'data') tab.push(skillsPromise[skill][0]);
                     }
                 }
 
@@ -27,6 +27,6 @@ angular.module('elyko')
             }
 
         }
-        
+
     ]);
 

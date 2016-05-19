@@ -6,7 +6,7 @@ angular.module('elyko')
         '$http',
         function ($http) {
 
-            var o = {}
+            var o = {};
 
             o.get = function (id) {
                 return $http.get('/evaluation/' + id).then(function (response) {
