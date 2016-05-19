@@ -15,7 +15,7 @@ class SkillController extends Controller
            $name = $assessment->name;
            $value = $this->symbolToDigits($assessment->value);
            $detail[$name][1]++;
-           $detail[$name][0] =  ($detail[$name][0] * ($detail[$name][1]-1) + $value)/$detail[$name][1];
+           $detail[$name][0] =  round(($detail[$name][0] * ($detail[$name][1]-1) + $value)/$detail[$name][1],1);
         }
         return response()->json($detail);
     }

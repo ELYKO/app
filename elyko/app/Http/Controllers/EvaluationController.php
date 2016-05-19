@@ -16,12 +16,36 @@ class EvaluationController extends Controller
             $value = $note['note'];
             if (is_numeric($value))
                 $value = $this->digitToLetter($value);
-            $detail['notes'][$value]++;
+            if (array_key_exists($value, $detail['notes']))
+                $detail['notes'][$value]++;
         }
         return response()->json($detail);
     }
 
-    function digitToLetter($value) {
+    function average($notes) {
+        $average = $total = $noteNumber = 0;
+        $withDigits = false;
+        foreach ($notes as $note) {
+            $value = $note['note'];
+            if (is_numeric($value)) {
+                $total += $value;
+                $noteNumber++;
+                $withDigits = true;
+            }
+            else if (in_array($value,array("A","B","C","D","E","FX","F"))) {
+                $value = $this->letterToDigit($value);
+                $total += $value;
+                $noteNumber++;
+            }
+        }
+        if ($withDigits && $noteNumber)
+            $average = round($total/$noteNumber,2);
+        else if ($noteNumber)
+            $average = $this->digitToLetter($total/$noteNumber);
+        return $average;
+    }
+    
+    public static function digitToLetter($value) {
         if ($value<5) $letter = "F";
         else if ($value < 8) $letter = "FX";
         else if ($value < 10) $letter = "E";
@@ -32,23 +56,7 @@ class EvaluationController extends Controller
         return $letter;
     }
 
-    function average($notes) {
-        $total = 0;
-        $withDigits = is_numeric($notes[0]['note']);
-        foreach ($notes as $note) {
-            $value = $note['note'];
-            if (!is_numeric($value))
-                $value = $this->letterToDigit($value);
-            $total += $value;
-        }
-        if ($withDigits)
-            $average = round($total/count($notes),2);
-        else
-            $average = $this->digitToLetter($total/count($notes));
-        return $average;
-    }
-
-    private function letterToDigit($value) {
+    public static function letterToDigit($value) {
         switch($value) {
             case "F" : $digit = 2.5; break;
             case "FX" : $digit = 6.5; break;
