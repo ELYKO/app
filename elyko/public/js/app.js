@@ -1,5 +1,5 @@
 angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js', 'sasrio.angular-material-sidenav'])
-    .constant("SERVER_PATH", "")
+    .constant("SERVER_PATH", "/index.php/")
     .config([
         '$stateProvider',
         '$urlRouterProvider',
@@ -35,6 +35,16 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     resolve: {
                         skillsPromise: ['$stateParams', 'skills', function ($stateParams, skills) {
                             return skills.get($stateParams.student_login, $stateParams.semester);
+                        }]
+                    }
+                })
+                .state('uv', {
+                    url: '/uv/{id}',
+                    templateUrl: 'js/uvs/_uv.html',
+                    controller: 'UvCtrl',
+                    resolve: {
+                        UvPromise: ['$stateParams', 'uvs', function ($stateParams, uvs) {
+                            return uvs.get($stateParams.id);
                         }]
                     }
                 });

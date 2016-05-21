@@ -1,0 +1,8 @@
+Pour la migration:
+php artisan migrate
+php artisan db:seed
+composer update
+composer dump-autoload
+
+Pour le serveur Apache2:
+sudo /etc/init.d/apache2 start (restart, stop)

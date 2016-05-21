@@ -1,12 +1,11 @@
 <div layout="column" flex-gt-xs="80" flex-offset-gt-xs="10" flex-xs flex-offset-xs="0">
 
     <md-card>
-        <md-head class="table-header">
-            <h4 style="font-size: 16px">
-                <span style="float: left">{{semester}}</span>
-                <span style="float: right">GPA : {{student.gpa}}</span>
-            </h4>
-        </md-head>
+        <div class="semester-gpa" layout="row" layout-padding>
+
+                <div layout="column" layout-align="center start" flex><h4>{{semester}}</h4></div>
+                <div layout="column" layout-align="center end" flex><h4>GPA : {{student.gpa}}</h4></div>
+        </div>
 
     </md-card>
 

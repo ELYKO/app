@@ -1,3 +1,13 @@
+.semester-gpa {
+    background-color: #B2DFDB;
+    height: 56px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.54);
+    white-space: nowrap;
+
+}
+
 .table {
     padding: 0;
 }
