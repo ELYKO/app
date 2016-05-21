@@ -4,12 +4,13 @@
 angular.module('elyko')
     .factory('evaluations', [
         '$http',
-        function ($http) {
+        'SERVER_PATH',
+        function ($http, SERVER_PATH) {
 
             var o = {};
 
             o.get = function (id) {
-                return $http.get('/evaluation/' + id).then(function (response) {
+                return $http.get(SERVER_PATH+'evaluation/' + id).then(function (response) {
                     return response.data;
                 })
             };

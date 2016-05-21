@@ -5,12 +5,13 @@
 angular.module('elyko')
     .factory('skills', [
         '$http',
-        function ($http) {
+        'SERVER_PATH',
+        function ($http, SERVER_PATH) {
 
             var o = {};
 
             o.get = function (login, semester) {
-                return $http.get('/skills/' + login + '/' + semester).then(function (response) {
+                return $http.get(SERVER_PATH + 'skills/' + login + '/' + semester).then(function (response) {
                     return response.data;
                 })
             };

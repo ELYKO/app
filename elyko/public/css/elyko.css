@@ -39,7 +39,7 @@ md-input-container:not(.md-input-invalid).md-input-focused .md-input {
 }
 
 md-input-container .md-errors-spacer{
-    min-height: 0px;
+    min-height: 0;
 }
 
 img {

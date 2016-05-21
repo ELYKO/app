@@ -4,7 +4,8 @@
 angular.module('elyko')
     .factory('student', [
         '$http',
-        function ($http) {
+        'SERVER_PATH',
+        function ($http, SERVER_PATH) {
 
             var o = {};
 
@@ -19,7 +20,7 @@ angular.module('elyko')
             };
 
             o.getSemesters = function () {
-                return $http.get("student/" + login + "/semesters").then(function (response) {
+                return $http.get(SERVER_PATH+"student/" + login + "/semesters").then(function (response) {
                     return response.data;
                 })
             };

@@ -1,4 +1,5 @@
 angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js', 'sasrio.angular-material-sidenav'])
+    .constant("SERVER_PATH", "")
     .config([
         '$stateProvider',
         '$urlRouterProvider',
