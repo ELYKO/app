@@ -1,25 +1,34 @@
 <div layout="column" flex>
     <md-card ng-repeat="uv in student.uvs | filter: filter">
-        <md-table-container>
-            <table md-table>
-                <thead md-head style="background-color: #B2DFDB">
-                <tr md-row>
-                    <th md-column><span>{{uv.name}}</span></th>
-                    <th md-column md-numeric><span>{{uv.credits}} ECTS</span></th>
-                    <th md-column md-numeric>{{uv.pivot.grade}}</th>
-                </tr>
-                </thead>
-                <tbody md-body>
-                <div>
-                    <tr md-row ng-repeat="eval in uv.evaluations"
-                        ui-sref="evaluation({id: '{{eval.id}}'})" md-select>
-                        <td md-cell>{{eval.name}}</td>
-                        <td md-cell>{{eval.coefficient}}</td>
-                        <td md-cell>{{eval.students[0].note}}</td>
-                    </tr>
+
+        <div layout="row" layout-padding class="table-header">
+            <div layout="column" flex="70" layout-align="center start">
+                <span class="uv-name">{{uv.name}}</span>
+            </div>
+            <div layout="column" flex="15" layout-align="center end">
+                <span>{{uv.credits}} ECTS</span>
+            </div>
+            <div layout="column" flex="15" layout-align="center end">
+                <span>{{uv.pivot.grade}}</span>
+            </div>
+
+        </div>
+        <md-divider></md-divider>
+        <div ng-repeat="eval in uv.evaluations">
+            <div layout="row" layout-padding class="table-row">
+                <div layout="column" flex="70" layout-align="center start">
+                    <span class="uv-name">{{eval.name}}</span>
                 </div>
-                </tbody>
-            </table>
-        </md-table-container>
+                <div layout="column" flex="15" layout-align="center end">
+                    <span>{{eval.coefficient}}</span>
+                </div>
+                <div layout="column" flex="15" layout-align="center end">
+                    <span>{{eval.students[0].note}}</span>
+                </div>
+            </div>
+            <md-divider ng-if="!$last"></md-divider>
+        </div>
+
+
     </md-card>
 </div>
