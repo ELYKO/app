@@ -57,13 +57,20 @@ img {
     margin: 0 auto;
 }
 
-@media screen and (max-device-width: 320px) {
+@media screen and (max-device-width: 375px) {
     .table-header {
+        height: 46px;
         font-size: 10px;
     }
 
     .table-row {
+        height: 46px;
         font-size: 10px;
+    }
+
+    .semester-gpa {
+        height: 46px;
+        font-size: 12px;
     }
 }
 
