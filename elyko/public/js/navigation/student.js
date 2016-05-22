@@ -20,7 +20,7 @@ angular.module('elyko')
             };
 
             o.getSemesters = function () {
-                return $http.get(SERVER_PATH+"student/" + login + "/semesters").then(function (response) {
+                return $http.get(SERVER_PATH + "student/" + login + "/semesters").then(function (response) {
                     return response.data;
                 })
             };

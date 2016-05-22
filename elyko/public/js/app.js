@@ -1,5 +1,5 @@
 angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js', 'sasrio.angular-material-sidenav'])
-    .constant("SERVER_PATH", "/index.php/")
+    .constant("SERVER_PATH", "")
     .config([
         '$stateProvider',
         '$urlRouterProvider',
@@ -10,7 +10,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
             $stateProvider
                 .state('notes', {
                     url: '/notes/{student_login}/{semester}',
-                    templateUrl: '/js/student_notes/_student_notes.html',
+                    templateUrl: 'js/student_notes/_student_notes.html',
                     controller: 'StudentNotesCtrl',
                     resolve: {
                         notesPromise: ['$stateParams', 'studentNotes', function ($stateParams, studentNotes) {
@@ -20,7 +20,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                 })
                 .state('evaluation', {
                     url: '/evaluations/{id}',
-                    templateUrl: '/js/evaluations/_evaluation.html',
+                    templateUrl: 'js/evaluations/_evaluation.html',
                     controller: 'EvaluationCtrl',
                     resolve: {
                         evaluationPromise: ['$stateParams', 'evaluations', function ($stateParams, evaluations) {
