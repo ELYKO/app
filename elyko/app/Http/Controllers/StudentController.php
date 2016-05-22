@@ -19,12 +19,24 @@ class StudentController extends Controller
                 $query->whereHas('students', function ($query) use ($studentLogin) {
                     $query->where('login', $studentLogin);
                 });
-
+                $query->orderBy('id','desc');
             },
             'uvs.evaluations.students' => function ($query) use ($studentLogin) {
                 $query->select('note')->where('login', $studentLogin);
             }])->where('login', $studentLogin)->get();
         $student_notes[0]['gpa']=$this->gpa($studentLogin, $semester);
+        $uvs = $student_notes[0]['uvs']->toArray();
+        usort($uvs,
+            function ($a, $b) {
+                if ($a['evaluations'] && $b['evaluations'])
+                    return ($a['evaluations'][0]['id'] < $b['evaluations'][0]['id']) ? 1 : -1;
+                elseif ($a['evaluations'])
+                    return -1;
+                else
+                    return 1;
+            });
+        unset($student_notes[0]['uvs']);
+        $student_notes[0]['uvs'] = $uvs;
         return response()->json($student_notes);
     }
     
