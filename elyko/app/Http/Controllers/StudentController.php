@@ -8,23 +8,23 @@ use App\Student;
 class StudentController extends Controller
 {
 
-    public function get($studentLogin, $semester)
+    public function get($semester)
     {
         $student_notes = Student::with([
             'uvs' => function ($query) use ($semester) {
                 $query->where('semester', $semester);
             },
-            'uvs.evaluations' => function ($query) use ($studentLogin) {
+            'uvs.evaluations' => function ($query)  {
                 $query->where('locked', true);
-                $query->whereHas('students', function ($query) use ($studentLogin) {
-                    $query->where('login', $studentLogin);
+                $query->whereHas('students', function ($query)  {
+                    $query->where('login', $_SERVER["PHP_AUTH_USER"]);
                 });
                 $query->orderBy('id', 'desc');
             },
-            'uvs.evaluations.students' => function ($query) use ($studentLogin) {
-                $query->select('note')->where('login', $studentLogin);
-            }])->where('login', $studentLogin)->get();
-        $student_notes[0]['gpa'] = $this->gpa($studentLogin, $semester);
+            'uvs.evaluations.students' => function ($query)  {
+                $query->select('note')->where('login', $_SERVER["PHP_AUTH_USER"]);
+            }])->where('login', $_SERVER["PHP_AUTH_USER"])->get();
+        $student_notes[0]['gpa'] = $this->gpa($semester);
         $uvs = $student_notes[0]['uvs']->toArray();
         usort($uvs,
             function ($a, $b) {
@@ -40,9 +40,9 @@ class StudentController extends Controller
         return response()->json($student_notes);
     }
 
-    public function semesters($login)
+    public function semesters()
     {
-        $student = Student::where(['login' => $login])->first();
+        $student = Student::where(['login' => $_SERVER["PHP_AUTH_USER"]])->first();
         $semesters = array();
         $uvs = $student->uvs()->get();
         foreach ($uvs as $uv) {
@@ -53,9 +53,9 @@ class StudentController extends Controller
         return response()->json(array_values($semesters));
     }
 
-    function gpa($login, $semester)
+    function gpa($semester)
     {
-        $studentId = Student::where(['login' => $login])->first()->id;
+        $studentId = Student::where(['login' => $_SERVER["PHP_AUTH_USER"]])->first()->id;
         $uvs = Inscription::where(['student_id' => $studentId])->join('uvs', 'uvs.id', '=', 'student_uv.uv_id')->where(['semester' => $semester])->get();
         $gpa = $total = $totalECTS = 0;
         foreach ($uvs as $uv) {
