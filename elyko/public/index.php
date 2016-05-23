@@ -24,6 +24,6 @@ $app = require __DIR__.'/../bootstrap/app.php';
 | and wonderful application we have prepared for them.
 |
 */
-
+$_SERVER["PHP_AUTH_USER"] = "abarre14";
 $request = Illuminate\Http\Request::capture();
 $app->run($request);
