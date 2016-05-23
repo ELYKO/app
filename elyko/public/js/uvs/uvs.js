@@ -4,7 +4,8 @@
 angular.module('elyko')
     .factory('uvs', [
         '$http',
-        function ($http) {
+        'SERVER_PATH',
+        function ($http, SERVER_PATH) {
 
             var o = {};
 
