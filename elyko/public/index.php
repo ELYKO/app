@@ -25,6 +25,5 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
-$_SERVER["PHP_AUTH_USER"] = "trault14";
 $request = Illuminate\Http\Request::capture();
 $app->run($request);
