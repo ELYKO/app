@@ -3,7 +3,9 @@
         <md-card-title>
             <md-card-title-text>
                 <span class="md-headline">{{name}}</span>
-                <span class="md-subhead">Coefficent: {{coefficient}}, Moyenne: {{average}}</span>
+                <div class="md-subhead">Coefficent: {{coefficient}}, <span ng-if="note">Note: {{note}},</span>
+                    Moyenne:{{average}}
+                </div>
             </md-card-title-text>
         </md-card-title>
 

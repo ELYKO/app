@@ -14,7 +14,8 @@
 
     <md-card ng-repeat="uv in student.uvs | filter: filter">
         <md-list class="table">
-            <md-list-item layout="row" class="table-header" ng-click="state.go('uv', {id: uv.id})">
+            <md-list-item layout="row" class="table-header" ng-click="state.go('uv', {id: uv.id})"
+                          ng-disabled="uv.pivot.grade==' '">
                 <div layout="column" flex="70" layout-align="center start">
                     <span class="uv-name">{{uv.name}}</span>
                 </div>
@@ -29,7 +30,7 @@
             <md-divider></md-divider>
 
             <md-list-item ng-repeat="eval in uv.evaluations" layout="row" class="table-row"
-                          ng-click="state.go('evaluation', {id: eval.id})">
+                          ng-click="viewEvaluation(eval)">
                 <div layout="column" flex="70" layout-align="center start">
                     <span class="uv-name">{{eval.name}}</span>
                 </div>

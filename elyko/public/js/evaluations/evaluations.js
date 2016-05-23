@@ -9,11 +9,14 @@ angular.module('elyko')
 
             var o = {};
 
+            o.studentNote = null;
+
             o.get = function (id) {
-                return $http.get(SERVER_PATH+'evaluation/' + id).then(function (response) {
+                return $http.get(SERVER_PATH + 'evaluation/' + id).then(function (response) {
                     return response.data;
                 })
             };
+
 
             return o;
 

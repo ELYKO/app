@@ -5,13 +5,15 @@ angular.module('elyko')
     .controller('EvaluationCtrl', [
         '$scope',
         'evaluationPromise',
-        function ($scope, evaluationPromise) {
+        'evaluations',
+        function ($scope, evaluationPromise, evaluations) {
 
             $scope.name = evaluationPromise.name;
             $scope.coefficient = evaluationPromise.coefficient;
             $scope.average = evaluationPromise.average;
+            $scope.note = evaluations.studentNote;
             $scope.labels = getLabels();
-            $scope.data = [getData()];
+            $scope.data = getData();
 
             function getLabels() {
                 var labels = [];
@@ -34,7 +36,7 @@ angular.module('elyko')
                     }
                 }
 
-                return data;
+                return [data];
             }
 
         }]);
