@@ -6,7 +6,7 @@
                 <span>{{semester}}</span>
             </div>
             <div layout="column" layout-align="center end" flex>
-                <span>GPA : {{student.gpa}}</span>
+                <span ng-hide="student.gpa==0">GPA : {{student.gpa}}</span>
             </div>
         </div>
 
