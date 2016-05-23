@@ -14,12 +14,11 @@
 use App\Http\Controllers;
 
 $app->get('/', function () {
-    return 'hello world';
+    return redirect('/index.html');
 });
 
-
-$app->get('/student/{login}/semesters', 'StudentController@semesters');
-$app->get('/student/{studentLogin}/{semester}', 'StudentController@get');
+$app->get('/student/semesters', 'StudentController@semesters');
+$app->get('/student/{semester}', 'StudentController@get');
 $app->get('/evaluation/{id}', 'EvaluationController@get');
-$app->get('/skills/{login}/{semester}', 'SkillController@get');
+$app->get('/skills/{semester}', 'SkillController@get');
 $app->get('/uv/{id}', 'UvController@get');
