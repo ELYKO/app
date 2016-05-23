@@ -10,7 +10,7 @@ angular.module('elyko')
 
             var o = {};
 
-            o.get = function (login, semester) {
+            o.get = function (semester) {
                 return $http.get(SERVER_PATH + 'skills/' + semester).then(function (response) {
                     return response.data;
                 })

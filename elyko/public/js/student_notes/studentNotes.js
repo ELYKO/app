@@ -5,7 +5,7 @@ angular.module('elyko')
         function ($http, SERVER_PATH) {
             var o = {};
 
-            o.getNotes = function (studentLogin, semester) {
+            o.getNotes = function (semester) {
                 return $http.get(SERVER_PATH + 'student/' + semester).then(function (response) {
                     return response.data;
                 });
