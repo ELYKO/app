@@ -8,7 +8,7 @@ use App\Student;
 class StudentController extends Controller
 {
 
-    public function get($semester)
+    public function get($semester=null)
     {
         $student_notes = Student::with([
             'uvs' => function ($query) use ($semester) {

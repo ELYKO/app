@@ -13,8 +13,17 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     templateUrl: 'js/student_notes/_student_notes.html',
                     controller: 'StudentNotesCtrl',
                     resolve: {
-                        notesPromise: ['$stateParams', 'studentNotes', function ($stateParams, studentNotes) {
-                            return studentNotes.getNotes($stateParams.semester);
+
+                        semesters: ['student', function (student) {
+                            return student.getSemesters();
+                        }],
+
+                        notesPromise: ['$stateParams', 'studentNotes', 'semesters', function ($stateParams, studentNotes, semesters) {
+                            if ($stateParams.semester != '') {
+                                return studentNotes.getNotes($stateParams.semester);
+                            } else {
+                                return studentNotes.getNotes(semesters[0]);
+                            }
                         }]
                     }
                 })
@@ -49,7 +58,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     }
                 });
 
-            $urlRouterProvider.otherwise('studentNotes');
+            $urlRouterProvider.otherwise('/notes/');
 
 
             $mdThemingProvider.theme('default')

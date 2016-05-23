@@ -17,6 +17,7 @@ $app->get('/', function () {
     return redirect('/index.html');
 });
 
+$app->get('/student/', 'StudentController@get');
 $app->get('/student/semesters', 'StudentController@semesters');
 $app->get('/student/{semester}', 'StudentController@get');
 $app->get('/evaluation/{id}', 'EvaluationController@get');

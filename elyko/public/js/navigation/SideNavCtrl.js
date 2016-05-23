@@ -5,7 +5,11 @@ angular.module('elyko')
         'student',
         function ($scope, ssSideNav, student) {
 
-            $scope.semesters = student.getSemesters().then(function (response) {
+            $scope.student = student.getStudent().then(function (response) {
+               $scope.student = response;
+            });
+
+            student.getSemesters().then(function (response) {
                 initializeSideNav(response);
             });
 

@@ -9,19 +9,19 @@ angular.module('elyko')
 
             var o = {};
 
-            var login = "";
-
-            o.setLogin = function (newLogin) {
-                login = newLogin;
+            o.getStudent = function () {
+                return $http.get(SERVER_PATH + 'student/').then(function (response) {
+                    o = response.data[0];
+                    return o;
+                });
             };
 
-            o.getLogin = function () {
-                return login;
-            };
+            o.semesters = [];
 
             o.getSemesters = function () {
                 return $http.get(SERVER_PATH + "student/semesters").then(function (response) {
-                    return response.data;
+                    o.semesters = response.data;
+                    return o.semesters;
                 })
             };
 
