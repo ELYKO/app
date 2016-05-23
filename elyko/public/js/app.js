@@ -9,12 +9,12 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
 
             $stateProvider
                 .state('notes', {
-                    url: '/notes/{student_login}/{semester}',
+                    url: '/notes/{semester}',
                     templateUrl: 'js/student_notes/_student_notes.html',
                     controller: 'StudentNotesCtrl',
                     resolve: {
                         notesPromise: ['$stateParams', 'studentNotes', function ($stateParams, studentNotes) {
-                            return studentNotes.getNotes($stateParams.student_login, $stateParams.semester);
+                            return studentNotes.getNotes($stateParams.semester);
                         }]
                     }
                 })
@@ -29,12 +29,12 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     }
                 })
                 .state('skills', {
-                    url: '/skills/{student_login}/{semester}',
+                    url: '/skills/{semester}',
                     templateUrl: 'js/skills/_skills.html',
                     controller: 'SkillsCtrl',
                     resolve: {
                         skillsPromise: ['$stateParams', 'skills', function ($stateParams, skills) {
-                            return skills.get($stateParams.student_login, $stateParams.semester);
+                            return skills.get($stateParams.semester);
                         }]
                     }
                 })

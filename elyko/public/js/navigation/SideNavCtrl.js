@@ -20,13 +20,13 @@ angular.module('elyko')
                     ssSideNav.sections[0].pages.push({
                         id: semester,
                         name: semester,
-                        state: "notes({student_login: '" + student.getLogin() + "', semester: '" + semester + "'})"
+                        state: "notes({semester: '" + semester + "'})"
                     });
 
                     ssSideNav.sections[1].pages.push({
                         id: semesters[i],
                         name: semesters[i],
-                        state: "skills({student_login: '" + student.getLogin() + "', semester: '" + semester + "'})"
+                        state: "skills({semester: '" + semester + "'})"
                     })
                 }
             }

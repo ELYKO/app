@@ -21,7 +21,6 @@ angular.module('elyko')
 
             o.getSemesters = function () {
                 return $http.get(SERVER_PATH + "student/semesters").then(function (response) {
-                    o.setLogin(data.login);
                     return response.data;
                 })
             };
