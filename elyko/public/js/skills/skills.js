@@ -11,7 +11,7 @@ angular.module('elyko')
             var o = {};
 
             o.get = function (login, semester) {
-                return $http.get(SERVER_PATH + 'skills/' + login + '/' + semester).then(function (response) {
+                return $http.get(SERVER_PATH + 'skills/' + semester).then(function (response) {
                     return response.data;
                 })
             };

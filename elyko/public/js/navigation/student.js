@@ -9,7 +9,7 @@ angular.module('elyko')
 
             var o = {};
 
-            var login = "abarre14";
+            var login = "";
 
             o.setLogin = function (newLogin) {
                 login = newLogin;
@@ -20,7 +20,8 @@ angular.module('elyko')
             };
 
             o.getSemesters = function () {
-                return $http.get(SERVER_PATH + "student/" + login + "/semesters").then(function (response) {
+                return $http.get(SERVER_PATH + "student/semesters").then(function (response) {
+                    o.setLogin(data.login);
                     return response.data;
                 })
             };

@@ -9,7 +9,7 @@ angular.module('elyko')
             var o = {};
 
             o.get = function (id) {
-                return $http.get('index.php/uv/' + id).then(function (response) {
+                return $http.get(SERVER_PATH + 'uv/' + id).then(function (response) {
                     return response.data;
                 })
             };
