@@ -20,7 +20,6 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
 
                         notesPromise: ['$stateParams', 'studentNotes', 'semesters', function ($stateParams, studentNotes, semesters) {
                             if ($stateParams.semester != '') {
-                                $stateParams.semester = semesters[0];
                                 return studentNotes.getNotes($stateParams.semester);
                             } else {
                                 $stateParams.semester = semesters[0];
