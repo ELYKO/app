@@ -57,6 +57,10 @@ img {
     margin: 0 auto;
 }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
 @media screen and (max-device-width: 375px) {
     .table-header {
         height: 46px;

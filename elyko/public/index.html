@@ -19,11 +19,13 @@
 <head>
     <meta charset="ISO-8859-1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="description" content="Site qui permet aux étudiants de l'EMN consulter leurs notes facilement">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta property="og:image" content="images/logo.png"/>
+    <meta property="og:image:secure_url" content="https://web.emn.fr/x-student/elyko/public/images/logo.png" />
     <title>Elyko</title>
 
-    <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/icon.css">
     <link rel="stylesheet" href="lib/bower_components/angular-material/angular-material.css">
     <link rel="stylesheet" href="lib/bower_components/angular-material-data-table/dist/md-data-table.css">
     <link rel="stylesheet" href="lib/bower_components/angular-chart.js/dist/angular-chart.css">
@@ -74,7 +76,7 @@
                 md-is-locked-open="$mdMedia('gt-sm')">
 
         <header class="md-sidebar-image-header">
-            <img src="images/logo.png" alt="">
+            <img src="images/logo.png" alt="" height="200">
             <md-toolbar class="md-theme-light">
                 <h1 class="md-toolbar-tools">{{student.last_name}} {{student.name}}</h1>
             </md-toolbar>
