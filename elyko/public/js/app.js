@@ -1,5 +1,5 @@
 angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js', 'sasrio.angular-material-sidenav'])
-    .constant("SERVER_PATH", "")
+    .constant("SERVER_PATH", "index.php/")
     .config([
         '$stateProvider',
         '$urlRouterProvider',
@@ -9,7 +9,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
 
             $stateProvider
                 .state('notes', {
-                    url: '/notes/{semester}',
+                    url: 'notes/{semester}',
                     templateUrl: 'js/student_notes/_student_notes.html',
                     controller: 'StudentNotesCtrl',
                     resolve: {
@@ -29,7 +29,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     }
                 })
                 .state('evaluation', {
-                    url: '/evaluations/{id}',
+                    url: 'evaluations/{id}',
                     templateUrl: 'js/evaluations/_evaluation.html',
                     controller: 'EvaluationCtrl',
                     resolve: {
@@ -39,7 +39,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     }
                 })
                 .state('skills', {
-                    url: '/skills/{semester}',
+                    url: 'skills/{semester}',
                     templateUrl: 'js/skills/_skills.html',
                     controller: 'SkillsCtrl',
                     resolve: {
@@ -49,7 +49,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     }
                 })
                 .state('uv', {
-                    url: '/uv/{id}',
+                    url: 'uv/{id}',
                     templateUrl: 'js/uvs/_uv.html',
                     controller: 'UvCtrl',
                     resolve: {

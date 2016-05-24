@@ -292,6 +292,7 @@ class Migration extends Command
 
         $sql = array();
         foreach($inscriptions as $inscription) {
+            $inscription['grade'] = str_replace(",", ".", $inscription['grade']);
             $sql[] = '(' . $inscription['student_id'] . ', ' . $inscription['uv_id'] . ', "' . $inscription['grade'] . '", "N")';
         }
         mysqli_query($connElyko,'REPLACE INTO student_uv (student_id, uv_id, grade) VALUES '.implode(',', $sql));
