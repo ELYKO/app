@@ -12,6 +12,7 @@ class CreateUvsTable extends Migration {
 			$table->string('name');
 			$table->float('credits');
 			$table->string('semester');
+			$table->string('state');
 			$table->primary('id');
 		});
 	}

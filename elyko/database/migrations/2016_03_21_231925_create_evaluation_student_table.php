@@ -11,6 +11,7 @@ class CreateEvaluationStudentTable extends Migration {
 			$table->integer('evaluation_id')->unsigned();
 			$table->integer('student_id')->unsigned();
 			$table->string('note')->nullable();
+			$table->string('state');
 			$table->primary(['evaluation_id','student_id']);
 		});
 	}

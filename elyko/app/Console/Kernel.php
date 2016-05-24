@@ -13,8 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\Migration',
-        'App\Console\Commands\Clean'
+        'App\Console\Commands\Migration'
     ];
 
     /**

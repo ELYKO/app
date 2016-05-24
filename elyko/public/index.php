@@ -25,5 +25,8 @@ $app = require __DIR__.'/../bootstrap/app.php';
 |
 */
 
+// Pour des tests en local, variable fourni par l'authentification du réseau
+$_SERVER["PHP_AUTH_USER"] = 'abarre14';
+
 $request = Illuminate\Http\Request::capture();
 $app->run($request);

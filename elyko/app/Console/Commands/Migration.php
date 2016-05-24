@@ -2,12 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Evaluation;
-use App\Inscription;
-use App\Student;
-use App\Note;
-use App\SkillAssessed;
-use App\Uv;
 use Illuminate\Console\Command;
 
 class Migration extends Command
@@ -24,7 +18,7 @@ class Migration extends Command
      *
      * @var string
      */
-    protected $description = 'Migrate data from Oasis to elyko';
+    protected $description = 'Migrate data from Oasis to Elyko';
 
     /**
      * Create a new command instance.
@@ -42,17 +36,16 @@ class Migration extends Command
     {
         // Pour mesurer le temps du script
         $timeStart = microtime(true);
-        
+
         // Connexion a la vue de la base Oasis fourni (Server SQL)
-        $conn = mssql_connect('bddoasis.emn.fr:1433','elyko','k53k0kyl3','Notes-eleves');
+        $connOasis = mssql_connect(OasisHost,OasisUser,OasisPwd,OasisDB);
 
         // Select des eleves (tous, le filtrage des eleves present a l'ecole est fait en amont de la vue)
         $request = "SELECT intIdUtilisateur AS 'id', strNom AS 'last_name', strPrenom AS 'name', strEmail AS 'email', strLogin AS 'login'
         FROM eleves";
 
         // On execute la query
-        $result = mssql_query($request, $conn);
-
+        $result = mssql_query($request, $connOasis);
 
         // Fonction qui remplit une array avec le resusltat d'une requete
         function getArray($result) {
@@ -70,8 +63,9 @@ class Migration extends Command
         // On appelle la fonction ci-dessus
         $students = getArray($result);
 
+
         // Select des evaluations
-        $request = "SELECT DISTINCT eval.intIdEvaluation AS 'id', eval.intIdProcess AS 'uv_id', eval.strTitre AS 'name', eval.decCoefficient AS 'coefficient', eval.boolBloque AS 'locked'
+        $request = "SELECT DISTINCT eval.intIdEvaluation AS 'id', module.intIdProcess AS 'uv_id', eval.strTitre AS 'name', eval.decCoefficient AS 'coefficient', eval.boolBloque AS 'locked'
         FROM bdn_notes note
         -- Associes a des evals
         INNER JOIN evaluations eval ON eval.intIdEvaluation = note.intIdEvaluation
@@ -83,7 +77,7 @@ class Migration extends Command
         INNER JOIN inscription_process iUV ON iUV.intIdProcess = UV.intIdProcess
         INNER JOIN eleves ON eleves.intIdUtilisateur = iUV.intIdUSer
         ORDER BY id";
-        $result = mssql_query($request, $conn);
+        $result = mssql_query($request, $connOasis);
         $evaluations = getArray($result);
 
 
@@ -95,7 +89,7 @@ class Migration extends Command
         -- Sans les competences
         WHERE strvaleur NOT IN ('-', '=', '+')
         ORDER BY evaluation_id";
-        $result = mssql_query($request, $conn);
+        $result = mssql_query($request, $connOasis);
         $notes = getArray($result);
 
 
@@ -124,7 +118,7 @@ class Migration extends Command
         AND ISNUMERIC(credits.strValeur) > 0
         ORDER BY id, credits DESC";
 
-        $result = mssql_query($request, $conn);
+        $result = mssql_query($request, $connOasis);
 
         $uvs = array();
         if (mssql_num_rows($result) > 0) {
@@ -140,6 +134,7 @@ class Migration extends Command
             }
         }
 
+
         // Select des inscriptions aux uvs (student_uv) avec les grades calcule et force
         $request = "SELECT eleves.intIdUtilisateur AS 'student_id', UV.intIdProcess AS 'uv_id', grade.strValeur AS 'gradeCalcule', gradeForce.strGrade AS 'gradeForce'
         FROM eleves
@@ -153,7 +148,7 @@ class Migration extends Command
         LEFT OUTER JOIN bdn_bulletin gradeForce ON gradeForce.intIdEleve = eleves.intIdUtilisateur AND gradeForce.intIdProcess = UV.intIdProcess
         ORDER BY uv_id";
 
-        $result = mssql_query($request, $conn);
+        $result = mssql_query($request, $connOasis);
 
         $inscriptions = array();
         if (mssql_num_rows($result) > 0) {
@@ -191,7 +186,7 @@ class Migration extends Command
         END)
         ORDER BY semester, name, value";
 
-        $result = mssql_query($request, $conn);
+        $result = mssql_query($request, $connOasis);
 
         $skillsAssessed = array();
         if (mssql_num_rows($result) > 0) {
@@ -212,7 +207,6 @@ class Migration extends Command
             $numName = getNumName($name);
             return $numSem*10 + $numName;
         }
-
         function getNumSem($sem) {
             $num = 0;
             switch ($sem) {
@@ -225,7 +219,6 @@ class Migration extends Command
             }
             return $num;
         }
-
         function getNumName($name) {
             $num = 100;
             // On garde le premier mot
@@ -245,70 +238,82 @@ class Migration extends Command
             return $num;
         }
 
-        // On ferme la connexion de la bdd Oasis
-        mssql_close($conn);
-
+        // On ferme la connexion de la BDD Oasis
+        mssql_close($connOasis);
+        
+        // On affiche le temps d'extraction
         $intermediaryTime = microtime(true);
-        echo "L'extraction s'execute en " . number_format($intermediaryTime - $timeStart, 3) . " sec </br>";
+        echo "L'extraction s'execute en " . number_format($intermediaryTime - $timeStart, 1) . " sec </br>";
 
-        $conn = mysqli_connect('cagiva.emn.fr', 'elyko', 'k53k0kyl3', 'elyko');
+        // On se connecte a la BDD de Elyko
+        $connElyko = mysqli_connect(ElykoHost, ElykoUser, ElykoPwd, ElykoDB);
 
-        mysqli_query($conn, 'TRUNCATE students');
-        mysqli_query($conn, 'TRUNCATE evaluation_student');
-        mysqli_query($conn, 'TRUNCATE evaluations');
-        mysqli_query($conn, 'TRUNCATE uvs');
-        mysqli_query($conn, 'TRUNCATE inscriptions');
-        mysqli_query($conn, 'TRUNCATE skill_student');
+        // On passe l'etat de toutes les donnees a O (Old)
+        mysqli_query($connElyko, 'UPDATE students SET state="O"');
+        mysqli_query($connElyko, 'UPDATE evaluations SET state="O"');
+        mysqli_query($connElyko, 'UPDATE uvs SET state="O"');
+        mysqli_query($connElyko, 'UPDATE evaluation_student SET state="O"');
+        mysqli_query($connElyko, 'UPDATE skill_student SET state="O"');
+        mysqli_query($connElyko, 'UPDATE student_uv SET state="O"');
 
+        // On cree une array contenant les donnees des students avec comme etet N (New)
         $sql = array();
         foreach ($students as $student) {
-            $sql[] = '(' . $student['id'] . ', "' . $student['last_name'] . '", "' . $student['name'] . '", "' . $student['email'] . '", "' . $student['login'] . '")';
+            $sql[] = '(' . $student['id'] . ', "' . $student['last_name'] . '", "' . $student['name'] . '", "' . $student['email'] . '", "' . $student['login'] . '", "N")';
         }
-        mysqli_query($conn, 'INSERT INTO students (id, last_name, name, email, login) VALUES ' . implode(',', $sql));
+        // On execute un replace pour update les donnees
+        mysqli_query($connElyko, 'REPLACE INTO students (id, last_name, name, email, login) VALUES ' . implode(',', $sql));
 
         $sql = array();
         foreach ($notes as $note) {
             $note['note'] = str_replace(",", ".", $note['note']);
-            $sql[] = '(' . $note['evaluation_id'] . ', ' . $note['student_id'] . ', "' . $note['note'] . '")';
+            $sql[] = '(' . $note['evaluation_id'] . ', ' . $note['student_id'] . ', "' . $note['note'] . '", "N")';
         }
-        mysqli_query($conn, 'INSERT INTO evaluation_student (evaluation_id, student_id, note) VALUES ' . implode(',', $sql));
+        mysqli_query($connElyko, 'REPLACE INTO evaluation_student (evaluation_id, student_id, note) VALUES ' . implode(',', $sql));
 
         $sql = array();
         foreach ($evaluations as $evaluation) {
             // On retire les " du name pour eviter une exception
             $evaluation['name'] = str_replace("\"", "", $evaluation['name']);
-            if ($evaluation['coefficient'] <= 1)
+            if ($evaluation['coefficient'] > 1)
                 //Pour un affichage uni des coefficients
-                $evaluation['coefficient'] *= 100;
-            $sql[] = '(' . $evaluation['id'] . ', ' . $evaluation['uv_id'] . ', "' . $evaluation['name'] . '", ' . $evaluation['coefficient'] . ', ' . $evaluation['locked'] . ')';
+                $evaluation['coefficient'] /= 100;
+            $sql[] = '(' . $evaluation['id'] . ', ' . $evaluation['uv_id'] . ', "' . $evaluation['name'] . '", ' . $evaluation['coefficient'] . ', ' . $evaluation['locked'] . ', "N")';
         }
-        mysqli_query($conn, 'INSERT INTO evaluations (id, uv_id, name, coefficient, locked) VALUES ' . implode(',', $sql));
+        mysqli_query($connElyko, 'REPLACE INTO evaluations (id, uv_id, name, coefficient, locked) VALUES ' . implode(',', $sql));
 
         $sql = array();
         foreach ($uvs as $uv) {
             // Certains UV ont des credits non entiers avec virgule (car stocke sous string)
             $uv['credits'] = str_replace(",", ".", $uv['credits']);
-            $sql[] = '(' . $uv['id'] . ', "' . $uv['name'] . '", ' . $uv['credits'] . ', "' . $uv['semester'] . '")';
+            $sql[] = '(' . $uv['id'] . ', "' . $uv['name'] . '", ' . $uv['credits'] . ', "' . $uv['semester'] . '", "N")';
         }
-        mysqli_query($conn, 'INSERT INTO uvs (id, name, credits, semester) VALUES ' . implode(',', $sql));
+        mysqli_query($connElyko, 'REPLACE INTO uvs (id, name, credits, semester) VALUES ' . implode(',', $sql));
 
         $sql = array();
         foreach($inscriptions as $inscription) {
-            $sql[] = '(' . $inscription['student_id'] . ', ' . $inscription['uv_id'] . ', "' . $inscription['grade'] . '")';
+            $sql[] = '(' . $inscription['student_id'] . ', ' . $inscription['uv_id'] . ', "' . $inscription['grade'] . '", "N")';
         }
-        mysqli_query($conn,'INSERT INTO student_uv (student_id, uv_id, grade) VALUES '.implode(',', $sql));
+        mysqli_query($connElyko,'REPLACE INTO student_uv (student_id, uv_id, grade) VALUES '.implode(',', $sql));
 
         $sql = array();
         foreach($skillsAssessed as $skillAssessed) {
-            $sql[] = '(' . $skillAssessed['skill_id'] . ', ' . $skillAssessed['student_id'] . ', "' . $skillAssessed['value'] . '")';
+            $sql[] = '(' . $skillAssessed['skill_id'] . ', ' . $skillAssessed['student_id'] . ', "' . $skillAssessed['value'] . '", "N")';
         }
-        mysqli_query($conn,'INSERT INTO skill_student (skill_id, student_id, value) VALUES '.implode(',', $sql));
+        mysqli_query($connElyko,'REPLACE INTO skill_student (skill_id, student_id, value) VALUES '.implode(',', $sql));
 
-        mysqli_close($conn);
+        // On supprime les vielles donnees
+        mysqli_query($connElyko, 'DELETE FROM students WHERE state="O"');
+        mysqli_query($connElyko, 'DELETE FROM evaluations WHERE state="O"');
+        mysqli_query($connElyko, 'DELETE FROM uvs WHERE state="O"');
+        mysqli_query($connElyko, 'DELETE FROM evaluation_student WHERE state="O"');
+        mysqli_query($connElyko, 'DELETE FROM skill_student WHERE state="O"');
+        mysqli_query($connElyko, 'DELETE FROM student_uv WHERE state="O"');
 
-        echo "L'insertion s'execute en " . number_format(microtime(true) - $intermediaryTime, 3) . " sec </br>";
-
-        $this->info('Migration succeed');
+        // On ferme connexion a la BDD de Elyko
+        mysqli_close($connElyko);
+        
+        echo "L'insertion s'execute en " . number_format(microtime(true) - $intermediaryTime, 1) . " sec </br>";
     }
 }
         

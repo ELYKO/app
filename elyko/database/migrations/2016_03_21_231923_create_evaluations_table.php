@@ -13,6 +13,7 @@ class CreateEvaluationsTable extends Migration {
 			$table->string('name');
 			$table->float('coefficient');
 			$table->boolean('locked');
+			$table->string('state');
 			$table->primary('id');
 		});
 	}

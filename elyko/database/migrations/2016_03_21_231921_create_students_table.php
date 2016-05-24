@@ -13,6 +13,7 @@ class CreateStudentsTable extends Migration {
 			$table->string('name');
 			$table->string('email')->nullable();
 			$table->string('login');
+			$table->string('state');
 			$table->primary('id');
 		});
 	}

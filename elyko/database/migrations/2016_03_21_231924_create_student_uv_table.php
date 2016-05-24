@@ -11,6 +11,7 @@ class CreateStudentUvTable extends Migration {
 			$table->integer('student_id')->unsigned();
 			$table->integer('uv_id')->unsigned();
 			$table->string('grade')->nullable();
+			$table->string('state');
 			$table->primary(['student_id','uv_id']);
 		});
 	}
