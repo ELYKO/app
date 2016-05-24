@@ -60,7 +60,11 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     }
                 });
 
-            $urlRouterProvider.otherwise('/notes/');
+            $urlRouterProvider.otherwise(function($injector){
+                $injector.invoke(['$state', function($state) {
+                    $state.go('notes');
+                }]);
+            });
 
 
             $mdThemingProvider.theme('default')
