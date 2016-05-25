@@ -11,20 +11,11 @@ angular.module('elyko')
 
             o.getStudent = function () {
                 return $http.get(SERVER_PATH + 'student').then(function (response) {
-                    o = response.data[0];
+                    o = response.data;
                     return o;
                 });
             };
-
-            o.semesters = [];
-
-            o.getSemesters = function () {
-                return $http.get(SERVER_PATH + "student/semesters").then(function (response) {
-                    o.semesters = response.data;
-                    return o.semesters;
-                })
-            };
-
+            
             return o;
 
         }]);

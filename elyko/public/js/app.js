@@ -14,16 +14,16 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     controller: 'StudentNotesCtrl',
                     resolve: {
 
-                        semesters: ['student', function (student) {
-                            return student.getSemesters();
+                        student: ['student', function (student) {
+                            return student.getStudent;
                         }],
 
-                        notesPromise: ['$stateParams', 'studentNotes', 'semesters', function ($stateParams, studentNotes, semesters) {
+                        notesPromise: ['$stateParams', 'studentNotes', 'student', function ($stateParams, studentNotes, student) {
                             if ($stateParams.semester != '') {
                                 return studentNotes.getNotes($stateParams.semester);
                             } else {
-                                $stateParams.semester = semesters[0];
-                                return studentNotes.getNotes(semesters[0]);
+                                $stateParams.semester = student.semesters[0];
+                                return studentNotes.getNotes($stateParams.semester);
                             }
                         }]
                     }

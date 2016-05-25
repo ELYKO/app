@@ -9,8 +9,8 @@ angular.module('elyko')
                $scope.student = response;
             });
 
-            student.getSemesters().then(function (response) {
-                initializeSideNav(response);
+            student.getStudent().then(function (studentResponse) {
+                initializeSideNav(studentResponse.semesters);
             });
 
             $scope.menu = ssSideNav;
