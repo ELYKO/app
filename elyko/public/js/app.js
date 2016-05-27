@@ -15,7 +15,7 @@ angular.module('elyko', ['ui.router', 'ngMaterial', 'md.data.table', 'chart.js',
                     resolve: {
 
                         student: ['student', function (student) {
-                            return student.getStudent;
+                            return student.getStudent();
                         }],
 
                         notesPromise: ['$stateParams', 'studentNotes', 'student', function ($stateParams, studentNotes, student) {
